@@ -1,0 +1,13 @@
+html {
+  --dftwa-line-divider:  rgba(0, 0, 0, 0.1);
+  --dftwa-line-divider-solid: #e6e6e6;
+  --dftwa-layout-topnav-height: 68px;
+  --dftwa-layout-conatiner-height: calc(100vh - var(--dftwa-layout-topnav-height, 68px));
+  --dftwa-layout-sidenav-menu-height: 48px;
+  --dftwa-dialog-height: 80vh;
+}
+
+.animation-fade-in {
+  animation: fade-in 400ms cubic-bezier(0, 0, 0.2, 1) forwards 205ms;
+}
+

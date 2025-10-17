@@ -1,0 +1,122 @@
+@use '@angular/material' as mat;
+@use '@drafto/material' as dft;
+
+dftwa-forgot {
+  .forgot {
+    margin-top: 3rem;
+
+    >mat-card {
+      @include mat.card-overrides((
+        outlined-container-shape: 8px,
+        outlined-container-color: var(--mat-sys-surface-container-lowest),
+      ));
+      &{
+        width: 450px;
+        min-height: 500px;
+      }
+
+      >mat-card-header {
+        padding: 0 !important;
+
+        .progress {
+          height: 4px;
+          overflow: hidden;
+          border-top-right-radius: 8px;
+          border-top-left-radius: 8px;
+        }
+
+        @include mat.button-toggle-overrides((
+          height: 36px
+          //divider-color: var(--mat-sys-surface-bright)
+        ));
+
+
+        @include mat.chips-overrides((
+          container-shape-radius: 16px,
+          outline-width: 1px,
+          outline-color: var(--mat-sys-outline)
+        ));
+
+        .mdc-evolution-chip__graphic {
+          padding-right: 0px !important;
+          padding-left: 10px !important;
+          padding-top: 1px !important;
+        }
+
+        .mdc-evolution-chip__action {
+          cursor: pointer !important;
+        }
+      }
+
+      >mat-card-content {
+        padding: 18px 40px 26px;
+
+        .verify-opt {
+          .input-box {
+            width: 40px;
+            height: 40px;
+            font-size: 26px;
+          }
+        }
+
+        .verify-email {
+          .icon img {
+            height: 120px;
+          }
+        }
+      }
+
+      >mat-card-footer {
+        padding: 0px 40px 26px;
+      }
+    }
+
+    @include dft.breakpoint(sm) {
+      margin-top: 0px;
+
+      >mat-card {
+        width: 100%;
+        border: none;
+        border-radius: unset;
+
+        >mat-card-header {
+          .progress {
+            border-top-right-radius: unset;
+            border-top-left-radius: unset;
+            margin-bottom: 30px;
+          }
+        }
+
+        >mat-card-content {
+          padding-left: 20px;
+          padding-right: 20px;
+        }
+
+        >mat-card-footer {
+          padding-left: 20px;
+          padding-right: 20px;
+        }
+      }
+    }
+
+    .country-code {
+      height: var(--mat-form-field-container-height, 56px) !important;
+
+      @include mat.button-overrides((outlined-container-shape: var(--mat-sys-corner-extra-small)));
+
+      .flag {
+        background: url('/img/flags.png') no-repeat 0 0;
+        background-size: 24px 3876px;
+        width: 24px;
+        height: 16px;
+        overflow: hidden;
+        margin-right: 5px;
+
+        mat-icon {
+          font-size: 34px !important;
+          line-height: 24px !important;
+        }
+      }
+    }
+  }
+}

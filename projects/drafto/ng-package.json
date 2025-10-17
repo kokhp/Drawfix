@@ -1,0 +1,9 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../dist/drafto",
+  "lib": {
+    "flatModuleFile": "drafto-core",
+    "entryFile": "public-api.ts"
+  },
+  "assets": ["**/*.scss"]
+}

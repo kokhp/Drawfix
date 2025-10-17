@@ -1,0 +1,47 @@
+@use '@angular/material' as mat;
+
+dftwa-main-sidenav {
+  * {
+    transition: all 400ms ease-in-out;
+  }
+  &{
+    display: block;
+    overflow-y: hidden;
+    opacity: 0;
+    animation: fade-in 160ms cubic-bezier(0, 0, 0.2, 1) forwards 250ms;
+  }
+
+  >._container {
+    height: var(--dftwa-layout-conatiner-height, calc(100vh - var(--dftwa-layout-topnav-height, 68px)));
+
+    >._header {
+      >.__main {
+        .text {
+          height: 52px;
+          opacity: 1;
+
+          &.collapsed {
+            opacity: 0 !important;
+            height: 0px !important;
+            transition: none !important;
+          }
+        }
+      }
+    }
+
+    >._items {
+      @include mat.list-overrides((
+        active-indicator-shape: 5px,
+        active-indicator-color: var(--mat-sys-surface-bright),
+        list-item-one-line-container-height: var(--dftwa-layout-sidenav-menu-height, 48px),
+        list-item-label-text-color: var(--mat-sys-on-surface-bright),
+        list-item-hover-state-layer-color: var(--mat-sys-secondary-fixed-dim),
+        list-item-focus-state-layer-color: var(--mat-sys-on-surface-bright)
+      ));
+
+      &.fixed-items {
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+      }
+    }
+  }
+}

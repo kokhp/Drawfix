@@ -1,0 +1,107 @@
+<div class="wrapper"
+  [style.paddingLeft]="xPadding()"
+  [style.paddingRight]="xPadding()">
+
+  <div class="__filter">
+    @if (showFilterIcon()) {
+      <div class="__icon">
+        <mat-icon tabindex="1"
+          (click)="filterInput.focus()">
+          <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false"><g ><path d="M21,6H3V5h18V6z M18,11H6v1h12V11z M15,17H9v1h6V17z" ></path></g></svg>
+        </mat-icon>
+      </div>
+    }
+    <!-- icon -->
+
+    <div class="__input">
+      <mat-chip-listbox>
+        @for (item of store.appliedFilters(); track item.name) {
+          <mat-chip disableRipple="true"
+            [disabled]="disabled() || item.disabled"
+            (click)="onTagClick($event, item)">
+            <span class="label-text" [matTooltip]="item.value| tagValue:item" [innerHTML]="item.value | tagValue:item"></span>
+            <button matChipRemove
+              matTooltip="Remove"
+              [disabled]="disabled() || item.disabled"
+              (click)="clearFilter(item)">
+              <mat-icon>
+                <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false"><g><path d="M12.7,12l6.6,6.6l-0.7,0.7L12,12.7l-6.6,6.6l-0.7-0.7l6.6-6.6L4.6,5.4l0.7-0.7l6.6,6.6l6.6-6.6l0.7,0.7L12.7,12z"></path></g></svg>
+              </mat-icon>
+            </button>
+          </mat-chip>
+        }
+
+        <div class="__inner" cdkOverlayOrigin #overlayOrigin>
+          <input type="text"
+            autocomplete="off"
+            tabindex="1"
+            [(ngModel)]="searchTerm"
+            [placeholder]="inputPlaceholder()"
+            [disabled]="disabled()"
+            (focus)="openFilterList()"
+            #filterInput />
+        </div>
+      </mat-chip-listbox>
+    </div>
+    <!-- filter -->
+
+    @if (showRemoveAllButton() && store.appliedFilters().length) {
+      <div class="__clear">
+        <button matTooltip="Clear"
+          mat-icon-button
+          [disabled]="disabled()"
+          [style.marginRight]="removeAllButtonRightMargin()"
+          (click)="clearFilter()">
+          <mat-icon>
+            <svg viewBox="0 0 24 24" preserveAspectRatio="xMidYMid meet" focusable="false"><g><path d="M12.7,12l6.6,6.6l-0.7,0.7L12,12.7l-6.6,6.6l-0.7-0.7l6.6-6.6L4.6,5.4l0.7-0.7l6.6,6.6l6.6-6.6l0.7,0.7L12.7,12z"></path></g></svg>
+          </mat-icon>
+        </button>
+      </div>
+    }
+    <!-- clear button -->
+  </div>
+
+  @if (store.initialized() && store.errors()) {
+    <div class="__errors">
+      <p>{{store.errors()}}</p>
+    </div>
+  } @else if (!store.initialized()) {
+    <div class="__shimmer"
+      [style.paddingLeft]="xPadding()"
+      [style.paddingRight]="xPadding()">
+      <ngx-skeleton-loader animation="progress" [theme]="{ height: '100%', background: 'var(--mat-sys-surface-container)'}" />
+    </div>
+  }
+</div>
+
+
+<ng-template #listTemplateRef>
+  <mat-list class="__filter-list">
+    @for (item of store.availableFilters(); track item.name) {
+      @if (item.stickySearch && searchTerm().length > 0) {
+        <mat-list-item class="__item"
+          [disabled]="item.disabled"
+          (click)="applyFilter(item)">
+          {{item.label}}
+          <span class="_label">{{item.inputLabel}}</span>
+          <span class="_highlight">'{{ searchTerm() }}'</span>
+        </mat-list-item>
+      } @else {
+        @if (store.dividerIndex() == $index) {
+          <mat-divider class="_divider"></mat-divider>
+        }
+
+        <mat-list-item class="__item"
+          [disabled]="item.disabled"
+          (click)="onFilterItemClick(item)">
+          <span [innerHTML]="item.label | highlight:searchTerm()"></span>
+        </mat-list-item>
+      }
+    } @empty {
+      <mat-list-item class="__item" [disabled]="true">
+        <span>No matching filter</span>
+      </mat-list-item>
+    }
+  </mat-list>
+</ng-template>
+

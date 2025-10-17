@@ -1,0 +1,110 @@
+@use '@angular/material' as mat;
+@use '@drafto/material' as dft;
+
+dftwa-signin-phone {
+  >mat-card {
+    @include mat.card-overrides((
+      outlined-container-shape: 8px,
+      outlined-container-color: var(--mat-sys-surface-container-lowest),
+    ));
+
+    &{
+      min-height: 500px;
+    }
+
+    >mat-card-header {
+      padding: 0 !important;
+
+      .progress {
+        height: 4px;
+        overflow: hidden;
+        border-top-right-radius: 8px;
+        border-top-left-radius: 8px;
+      }
+
+      @include mat.chips-overrides((
+        container-shape-radius: 16px,
+        outline-width: 1px,
+        outline-color: var(--mat-sys-outline)
+      ));
+
+      .mdc-evolution-chip__graphic {
+        padding-right: 0px !important;
+        padding-left: 10px !important;
+        padding-top: 1px !important;
+      }
+
+      .mdc-evolution-chip__action {
+        cursor: pointer !important;
+      }
+    }
+
+    >mat-card-content {
+      padding: 28px 40px 26px !important;
+
+      .verify-opt {
+        .input-box {
+          width: 40px;
+          height: 40px;
+          font-size: 26px;
+        }
+      }
+    }
+
+    >mat-card-footer {
+      padding: 0px 40px 26px !important;
+    }
+  }
+
+  @include dft.breakpoint(sm) {
+    >mat-card {
+      width: 100%;
+      border: none !important;
+      border-radius: unset !important;
+      @include mat.card-overrides((
+        outlined-container-shape: 0px,
+        outlined-outline-width: 0px
+      ));
+
+      >mat-card-header {
+        .progress {
+          border-top-right-radius: unset !important;
+          border-top-left-radius: unset !important;
+          margin-bottom: 30px;
+        }
+      }
+
+      >mat-card-content {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+      }
+
+      >mat-card-footer {
+        padding-left: 20px !important;
+        padding-right: 20px !important;
+      }
+    }
+  }
+
+  .country-code {
+    height: var(--mat-form-field-container-height, 56px) !important;
+
+    @include mat.button-overrides((
+      outlined-container-shape: var(--mat-sys-corner-extra-small)
+    ));
+
+    .flag {
+      background: url('/img/flags.png') no-repeat 0 0;
+      background-size: 24px 3876px;
+      width: 24px;
+      height: 16px;
+      overflow: hidden;
+      margin-right: 5px;
+
+      mat-icon {
+        font-size: 34px !important;
+        line-height: 24px !important;
+      }
+    }
+  }
+}

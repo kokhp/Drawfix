@@ -1,0 +1,11 @@
+{
+  "$schema": "../../node_modules/ng-packagr/ng-package.schema.json",
+  "dest": "../../dist/drafto-material",
+  "lib": {
+    "entryFile": "public-api.ts"
+  },
+  "assets": ["**/*.scss"],
+  "allowedNonPeerDependencies": [
+    "@drafto/core"
+  ]
+}

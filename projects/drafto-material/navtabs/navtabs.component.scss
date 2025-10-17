@@ -1,0 +1,54 @@
+@use '@angular/material' as mat;
+
+.dft-navtabs {
+  display: flex;
+  flex-direction: column;
+
+  @include mat.tabs-overrides((
+    divider-height: 0px,
+    active-indicator-height: 3px,
+    label-text-weight: var(--mat-sys-title-medium-weight),
+    inactive-ripple-color: transparent,
+    active-ripple-color: transparent
+  ));
+
+  >.wrapper {
+    display: flex;
+    align-items: flex-end;
+    align-content: space-between;
+
+    >.__tabs {
+      flex: 1 1 auto !important;
+
+      .__item {
+        padding: unset !important;
+
+        &:first-child{
+          margin-left: 0 !important;
+          min-width: unset;
+        }
+
+        &:not(:first-child) {
+          margin-left: 2.5rem;
+          min-width: 50px;
+        }
+
+        &:not(.mdc-tab--active) {
+          .mdc-tab__text-label {
+            opacity: 0.7;
+          }
+
+          &:hover .mdc-tab-indicator__content {
+            opacity: 0.5;
+          }
+        }
+      }
+    }
+
+    >.extras {
+      display: flex;
+      align-self: center;
+      align-items: center;
+    }
+  }
+}

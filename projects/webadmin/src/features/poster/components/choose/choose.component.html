@@ -1,0 +1,33 @@
+<div class="flex flex-col px-6 h-full">
+  <div class="flex flex-col items-center justify-center flex-1 h-full w-full">
+    <div
+      matRipple
+      class="flex items-center justify-center w-32 h-32 bg-gray-100 rounded-full mb-4 text-gray-500 cursor-pointer"
+      [matRippleCentered]="true"
+    >
+      <mat-icon class="!w-16 !h-16 text-6xl">upload_2</mat-icon>
+    </div>
+
+    <p class="my-2">Drag and drop posters images to upload.</p>
+    <p>
+      <small class="text-gray-400"
+        >Your posters will be private until you publish them.</small
+      >
+    </p>
+
+    <button mat-flat-button class="my-3">Select files</button>
+  </div>
+  <div
+    class="flex flex-col items-center justify-center self-end mb-4 py-3 w-full"
+  >
+    <p class="text-xs text-gray-500">
+      By submitting your images to IKon, you acknowledge that you agree to
+      IKon's <a href="#">Terms of Service</a> and
+      <a href="#">Community Guidelines.</a>
+    </p>
+    <p class="text-xs text-gray-500">
+      Please be sure not to violate others' copyright or privacy rights.
+      <a href="#">Learn more</a>
+    </p>
+  </div>
+</div>

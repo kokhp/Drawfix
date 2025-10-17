@@ -1,0 +1,41 @@
+<div class="flex flex-col mb-4">
+  <div class="flex flex-col mb-4">
+    <div class="flex content-between items-center">
+      <p class="font-medium flex-grow">Greeting Templates:</p>
+      <p class="slide">
+        Selected
+        <mat-slide-toggle
+          [(ngModel)]="checked"
+          (ngModelChange)="resetTemplates()"
+          hideIcon
+          >All</mat-slide-toggle
+        >
+      </p>
+    </div>
+    <p
+      class="help text-sm mt-1"
+      style="color: var(--mat-sys-on-surface-variant)"
+    >
+      Enable this option to automatically apply all political templates to the
+      poster. If disabled, you can manually select specific templates from the
+      available options.
+    </p>
+  </div>
+  <dft-mat-carousal [list]="templates()">
+    <ng-template #card let-item="item">
+      <div
+        [attr.data-id]="item.id"
+        class="flex rounded relative h-28 min-w-64 border-2 active:border-blue-300"
+        [class.border-blue-300]="item.selected"
+        [class.cursor-pointer]="!checked"
+        (click)="!checked ? (item.selected = !item.selected) : null"
+      >
+        <div class="absolute top-0 right-0">
+          @if(item.selected) {
+          <mat-icon class="text-blue-700">check_circle</mat-icon>
+          }
+        </div>
+      </div>
+    </ng-template>
+  </dft-mat-carousal>
+</div>

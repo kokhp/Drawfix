@@ -1,0 +1,98 @@
+<div class="flex flex-col h-full container mx-auto">
+  <div class="flex flex-col header">
+    <div class="flex items-center py-2 px-4 border-b">
+      <h4 class="grow m-0 text-lg font-medium">Upload Posters</h4>
+      <div class="flex">
+        <button mat-icon-button class="me-3" matTooltip="Send Feedback">
+          <mat-icon class="material-icons-outlined">feedback</mat-icon>
+        </button>
+
+        <button
+          mat-icon-button
+          mat-dialog-close
+          matTooltip="Close"
+          (click)="close()"
+          class="mr-[-8px]"
+        >
+          <mat-icon class="!block">
+            <svg viewBox="0 -960 960 960">
+              <path
+                d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"
+              />
+            </svg>
+          </mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+  @if (isPicker()) {
+  <dftwa-choose></dftwa-choose>
+  } @else {
+  <dft-mat-carousal class="border-b" [list]="posterList()">
+    <ng-template #card let-item="item">
+      <div
+      matRipple
+      class="flex rounded h-20 min-w-20 cursor-pointer item"
+      [class.active]="item == 2"
+    >
+      <img
+        class="rounded w-full"
+        src="https://draftopub.b-cdn.net/posters/202502/20/67b6e823bb3091415a9e7639.webp"
+        [class.opacity-50]="item != 2"
+      />
+    </div>
+    </ng-template>
+  </dft-mat-carousal>
+  <dftwa-quick-edit></dftwa-quick-edit>
+  <div class="flex flex-col border-t px-4 py-3.5 footer">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center">
+        <mat-icon
+          class="material-icons-outlined me-2"
+          matTooltipPosition="above"
+          matTooltip="Video upload completed"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            preserveAspectRatio="xMidYMid meet"
+            focusable="false"
+          >
+            <g>
+              <path
+                d="M17,18v1H6V18ZM6.49,9l.71.71L11,5.91V16h1V5.91l3.8,3.81L16.51,9l-5-5Z"
+              ></path>
+            </g>
+          </svg>
+        </mat-icon>
+
+        <mat-icon
+          class="material-icons-outlined me-2"
+          matTooltipPosition="above"
+          matTooltip="Video processing completed."
+        >
+          <svg
+            viewBox="0 0 24 24"
+            preserveAspectRatio="xMidYMid meet"
+            focusable="false"
+          >
+            <g width="24" height="24" viewBox="0 0 24 24">
+              <path
+                d="M5 17V15H9V13H7C5.89 13 5 12.11 5 11V9C5 7.89 5.89 7 7 7H11V9H7V11H9C10.11 11 11 11.89 11 13V15C11 16.11 10.11 17 9 17H5ZM19 10V14C19 15.66 17.66 17 16 17H13V7H16C17.66 7 19 8.34 19 10ZM17 10C17 9.45 16.55 9 16 9H15V15H16C16.55 15 17 14.55 17 14V10ZM21 3V21H3V3H21ZM20 4H4V20H20V4Z"
+              ></path>
+            </g>
+          </svg>
+        </mat-icon>
+
+        <div class="ms-2" style="color: gray">
+          <small>Uploading... 10%</small>
+        </div>
+      </div>
+
+      <div class="flex">
+        <button mat-stroked-button class="me-4">Back</button>
+        <button mat-stroked-button>Next</button>
+      </div>
+    </div>
+  </div>
+  }
+</div>

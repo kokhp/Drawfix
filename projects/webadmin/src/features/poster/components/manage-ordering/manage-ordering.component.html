@@ -1,0 +1,181 @@
+<div class="page-title sticky left-0 px-6">
+  <div class="flex flex-col header">
+    <div class="flex items-center py-2 px-4 border-b">
+      <h4 class="grow m-0 text-lg font-medium">Manage Ordering</h4>
+      <div class="flex">
+        <button mat-icon-button mat-dialog-close matTooltip="Close" (click)="close()" class="mr-[-8px]">
+          <mat-icon class="!block">
+            <svg viewBox="0 -960 960 960">
+              <path
+                d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z"
+              />
+            </svg>
+          </mat-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div>
+    <ng-template #navTabHeaderTemplate>
+      <button mat-stroked-button (click)="btnManageOrderingClick()">Manage Ordering</button>
+    </ng-template>
+
+    <ng-template #categoryFilterItemTemplate let-item>
+      <span [class.text-red-600]="!item.extras?.isActive">{{ item.label }}</span>
+    </ng-template>
+
+    <ng-template #partyFilterItemTemplate let-item>
+      <div class="flex items-center gap-2">
+        <img
+          [src]="item.extras?.logoUrl"
+          alt="{{ item.extras?.shortName }}"
+          class="w-6 h-6 rounded-full object-cover"
+        />
+        <span [class.text-red-600]="!item.extras?.isActive">
+          ({{ item.extras?.shortName }})
+          {{ item.label?.length > 25 ? (item.label | slice : 0 : 25) + "..." : item.label }}
+        </span>
+      </div>
+    </ng-template>
+
+    <ng-template #languageFilterItemTemplate let-item>
+      <div class="flex items-center gap-2">
+        <span
+          class="w-6 h-6 flex items-center justify-center rounded-full border border-blue-500 text-xs font-black mr-1"
+        >
+          {{ item.extras?.iconText }}
+        </span>
+        <span class="truncate">{{ item.label }}</span>
+      </div>
+    </ng-template>
+
+    @if (initialized()) {
+    <div class="flex bg-white sticky top-[60px] left-0 z-20 border-b">
+      <dft-mat-filter
+        class="flex-grow"
+        enableQueryParam="false"
+        filterId="manage-ordering-filters"
+        removeAllButtonRightMargin="-10px"
+        xPadding="1.5rem"
+        [style.top]="'60px'"
+        [filters]="filterList()"
+        [disabled]="isBusy()"
+        (onApplied)="onFilterApplied($event)"
+      >
+      </dft-mat-filter>
+
+      <div class="flex items-center pr-6 gap-2">
+        <button mat-icon-button matTooltip="Refresh" (click)="onRefreshClicked()" [disabled]="isBusy()">
+          <mat-icon class="!block">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
+              <path
+                d="M173.08-173.08v-60H290l-29.08-27.84q-49.3-45.62-70.11-102.12Q170-419.54 170-477.23q0-103.69 60.73-185.96Q291.46-745.46 390-776.15v63.23q-72.39 28.3-116.19 92.73Q230-555.77 230-477.23q0 46.92 17.77 91.15 17.77 44.23 55.31 81.77l25.38 25.39v-109.54h60v215.38H173.08ZM570-183.85v-63.23q72.39-28.3 116.19-92.73Q730-404.23 730-482.77q0-46.92-17.77-91.15-17.77-44.23-55.31-81.77l-25.38-25.39v109.54h-60v-215.38h215.38v60H670l29.08 27.84q47.46 47.47 69.19 103.04Q790-540.46 790-482.77q0 103.69-60.73 185.96Q668.54-214.54 570-183.85Z"
+              />
+            </svg>
+          </mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <div class="flex flex-col flex-1 overflow-y-auto h-[80vh]" #posterListContainer>
+      <!-- First page loader -->
+      @if (isBusy() && localPosterList().length === 0) {
+      <div class="flex flex-1 justify-center items-center py-12">
+        <mat-spinner diameter="48"></mat-spinner>
+      </div>
+      }
+
+      <!-- First page error -->
+      @if (apiError() && !isBusy() && localPosterList().length === 0) {
+      <div class="flex flex-1 flex-col justify-center items-center py-12">
+        <img src="assets/images/error.svg" alt="Error" class="w-40 h-40 mb-4" />
+        <p class="text-gray-600 mb-4">{{ apiError() }}</p>
+        <button mat-flat-button color="primary" (click)="onRefreshClicked()">Retry</button>
+      </div>
+      }
+
+      <!-- Empty state -->
+      @if (!isBusy() && !apiError() && localPosterList().length === 0) {
+      <div class="flex flex-1 flex-col justify-center items-center py-12">
+        <img src="assets/images/empty.svg" alt="Empty" class="w-40 h-40 mb-4" />
+        <p class="text-gray-500 text-lg">No posters found</p>
+      </div>
+      }
+
+      <!-- Items -->
+      @if (localPosterList().length > 0) {
+      <!-- Items grid -->
+      <div
+        #dropList
+        cdkDropList
+        [cdkDropListData]="localPosterList()"
+        (cdkDropListDropped)="onDrop($event)"
+        cdkDropListOrientation="vertical"
+        class="grid gap-4 px-6 mt-4 mb-6"
+        style="grid-template-columns: repeat(auto-fill, minmax(260px, 1fr))"
+        infinite-scroll
+        [infiniteScrollDistance]="1"
+        [infiniteScrollThrottle]="150"
+        [infiniteScrollDisabled]="isBusy() || allPostersLoaded()"
+        [infiniteScrollContainer]="posterListContainer"
+        (scrolled)="onScrolled()"
+      >
+        <!-- Inside the cdkDropList grid @for loop -->
+        @for (item of localPosterList(); track item.id; let i = $index) {
+        <dftwa-manage-ordering-itemcard
+          cdkDrag
+          [cdkDragData]="item"
+          [attr.data-id]="item.id"
+          [class.selected]="isSelected(item.id)"
+          [class.multiple-selection]="isSelected(item.id) && selectedIds.size > 1"
+          [class.drop-target]="lastHoverIndex === i"
+          [class.drop-target-before]="lastHoverIndex === i && hoverSide === 'before'"
+          [class.drop-target-after]="lastHoverIndex === i && hoverSide === 'after'"
+          (click)="onCardClick($event, item)"
+          [item]="item"
+          [isSelected]="isSelected(item.id)"
+          class="w-full cursor-move transition-all"
+          (iCheckbox)="toggleSelection($event)"
+          (cdkDragStarted)="onDragStarted($event)"
+          (cdkDragMoved)="onDragMoved($event)"
+          (cdkDragEnded)="onDragEnded()"
+        />
+        }
+      </div>
+      }
+
+      <!-- Loader for next page -->
+      @if (isBusy() && localPosterList().length > 0) {
+      <div class="flex justify-center py-4">
+        <mat-spinner diameter="32"></mat-spinner>
+      </div>
+      }
+
+      <!-- Error for next page -->
+      @if (apiError() && !isBusy() && localPosterList().length > 0) {
+      <div class="flex flex-col items-center py-4">
+        <p class="text-gray-600 mb-3">Failed to load more items</p>
+        <button mat-stroked-button color="primary" (click)="onRefreshClicked()">Retry</button>
+      </div>
+      } @if (allPostersLoaded() && localPosterList().length > 0) {
+      <div class="flex justify-center py-4 text-gray-500">
+        <span>All posters have been loaded. Total posters: {{ localPosterList().length }}</span>
+      </div>
+      }
+    </div>
+    } @else {
+    <div class="flex flex-1 justify-center items-center h-[100vh]">
+      <mat-spinner diameter="48"></mat-spinner>
+    </div>
+    }
+  </div>
+  <div class="flex flex-col border-t px-4 py-3.5 footer">
+    <div class="flex items-center justify-between">
+      <div class="flex items-center"></div>
+      <div class="flex">
+        <button mat-stroked-button class="me-4" (click)="close()">Back</button>
+        <button mat-stroked-button color="primary" (click)="onSave()">Save</button>
+      </div>
+    </div>
+  </div>
+</div>

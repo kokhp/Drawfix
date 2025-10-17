@@ -1,0 +1,186 @@
+<mtx-popover
+  #partyPopover
+  [position]="['after', 'center']"
+  [enterDelay]="0"
+  [arrowWidth]="24"
+  [arrowHeight]="24"
+  class="dftwa-posterlist-itemcard-popover"
+>
+  <div class="flex flex-col overflow-y-auto scrollbar-thin scrollbar-thumb-rounded">
+    @for (it of item().parties; track $index) {
+    <div class="flex items-center my-1">
+      <img class="rounded-full h-5 w-5" [src]="it.logoUrl" alt="{{ it.name }}" />
+      <span class="ms-2 text-sm"
+        >({{ it.shortName }})
+        {{ it.name.length > 25 ? (it.name | slice : 0 : 25) + "..." : it.name }}
+      </span>
+    </div>
+    }
+  </div>
+</mtx-popover>
+
+<mtx-popover
+  #categoryPopover
+  [position]="['after', 'center']"
+  [enterDelay]="0"
+  [arrowWidth]="24"
+  [arrowHeight]="24"
+  class="dftwa-posterlist-itemcard-popover"
+>
+  <div class="flex flex-col overflow-y-auto scrollbar-thin scrollbar-thumb-rounded">
+    @for (it of item().categories; track $index) {
+    <span class="ms-2 text-sm">{{ it.name }}</span>
+    }
+  </div>
+</mtx-popover>
+
+<mtx-popover
+  #languagePopover
+  [position]="['after', 'center']"
+  [enterDelay]="0"
+  [arrowWidth]="24"
+  [arrowHeight]="24"
+  class="dftwa-posterlist-itemcard-popover"
+>
+  <div class="flex flex-col overflow-y-auto scrollbar-thin scrollbar-thumb-rounded">
+    @for (it of item().languages; track $index) {
+    <span class="ms-2 text-sm">{{ it.name }}</span>
+    }
+  </div>
+</mtx-popover>
+
+<mat-card
+  class="!rounded-bl-lg !rounded-br-lg"
+  appearance="outlined"
+  (mouseenter)="isHoverActive.set(true)"
+  (mouseleave)="onMouseLeave()"
+>
+  <div class="relative">
+    <div
+      class="aspect-[1/1] min-h-[220px] cursor-pointer flex items-center rounded-tl-lg rounded-tr-lg justify-center overflow-hidden"
+    >
+      <img
+        class="max-w-full max-h-full object-contain"
+        [src]="item().posterUrl || '/img/logo.png'"
+        alt="poster"
+      />
+    </div>
+    <!-- poster -->
+
+    <!-- top overlay -->
+
+    <div class="absolute top-1 left-0 ps-2 checkbox" [class.show]="isHoverActive() || isSelected()">
+      <mat-checkbox [checked]="isSelected()" (change)="onCheckboxChanged($event.checked)"> </mat-checkbox>
+    </div>
+    <!-- checkbox -->
+
+    <div class="absolute top-0 left-0 right-0 flex justify-center gap-3">
+      @if(item().isActive === false) {
+      <!-- IN-ACTIVE Tag -->
+      <span
+        class="relative bg-red-600 text-white text-xs font-bold px-5 py-1 rounded-b-full shadow-md shadow-gray-400/50"
+      >
+        IN-ACTIVE
+      </span>
+      } @else if (item().isPublished === false) {
+      <!-- DRAFT Tag -->
+      <span
+        class="relative bg-blue-600 text-white text-xs font-bold px-5 py-1 rounded-b-full shadow-md shadow-gray-400/50"
+      >
+        DRAFT
+      </span>
+      } @else if (pendingPublish()) {
+      <!-- PENDING - PUBLISH Tag -->
+      <span
+        class="relative bg-yellow-500 text-black text-xs font-bold px-5 py-1 rounded-b-full shadow-md shadow-gray-400/50"
+      >
+        PENDING - PUBLISH
+      </span>
+      }
+    </div>
+
+    <!-- bottom overlay -->
+    <div class="absolute bottom-3 left-0 ps-2">
+      <div class="relative flex flex-row">
+        @if(firstParty() && firstCategory()){
+        <div
+          class="rounded-full w-[30px] h-[30px] shadow-sm"
+          matTooltipPosition="above"
+          [matTooltip]="firstParty()?.tooltip"
+        >
+          <img class="rounded-full" [src]="firstParty()?.logoUrl" />
+        </div>
+        } @if (firstCategory() && hasMoreParties()) {
+        <div
+          class="rounded-full w-[30px] h-[30px] shadow-sm bg-slate-300 ms-2 flex items-center cursor-pointer"
+          [mtxPopoverTriggerFor]="partyPopover"
+        >
+          <span class="flex-grow text-center text-xs font-bold"
+            >+{{ (item().parties?.length ?? 0) - 1 }}</span
+          >
+        </div>
+        }
+      </div>
+    </div>
+    <!-- political parties -->
+  </div>
+
+  <div class="flex flex-col pb-2 px-2 footer">
+    <div class="flex justify-between my-3 items-center">
+      
+    </div>
+    <!-- <div class="flex justify-between my-3 items-center">
+      @if (firstCategory()) {
+      <div class="flex flex-row items-center text-xs">
+        <span class="rounded-sm px-2 py-[2px] category-tag">
+          {{ firstCategory()?.name }}
+        </span>
+
+        @if(hasMoreCategories()) {
+        <span
+          class="rounded-sm px-2 py-[2px] ms-2 category-tag cursor-pointer"
+          [mtxPopoverTriggerFor]="categoryPopover"
+        >
+          + {{ (item().categories?.length ?? 0) - 1 }}
+        </span>
+        }
+      </div>
+      } @else if (firstParty()) {
+      <div class="flex flex-row items-center">
+        <div class="flex flex-row rounded-full category-tag text-xs">
+          <img class="rounded-full h-5 w-5" [src]="firstParty()?.logoUrl" alt="{{ firstParty()?.name }}" />
+          <span class="ms-1 me-2.5 leading-5" [matTooltip]="firstParty()?.name">{{
+            firstParty()?.shortName
+          }}</span>
+        </div>
+
+        @if (hasMoreParties()) {
+        <div class="flex flex-row rounded-full items-center h-5 ms-2 category-tag text-xs">
+          <span class="mx-2 leading-5">+{{ (item().parties?.length ?? 0) - 1 }}</span>
+        </div>
+        }
+      </div>
+      }
+
+      <span>{{ item().totalSize | fileSize }}</span>
+    </div> -->
+    <!-- categories/parties & file-size -->
+
+    <div class="date flex justify-between mb-2">
+      @if (item().isPublished) {
+      <div class="flex items-center">
+        <mat-icon class="!size-[15px] text-[15px]">calendar_month</mat-icon>
+        <span class="ms-1">Published At:</span>
+      </div>
+      <div>{{ item().publishedAt ?? item().createdAt | date : "dd MMM, yyyy hh:mm a" }}</div>
+      } @else {
+      <div class="flex items-center">
+        <mat-icon class="!size-[15px] text-[15px]">calendar_month</mat-icon>
+        <span class="ms-1">Created At:</span>
+      </div>
+      <div>{{ item().createdAt | date : "dd MMM, yyyy hh:mm a" }}</div>
+      }
+    </div>
+    <!-- date -->
+  </div>
+</mat-card>

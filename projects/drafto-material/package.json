@@ -1,0 +1,19 @@
+{
+  "name": "@drafto/material",
+  "version": "0.0.1",
+  "peerDependencies": {
+    "@angular/common": "^19.1.0",
+    "@angular/core": "^19.1.0",
+    "@angular/material": "^19.1.0",
+    "@drafto/core": "^0.0.1"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0"
+  },
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "sass": "./_index.scss"
+    }
+  }
+}

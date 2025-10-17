@@ -1,0 +1,112 @@
+<mat-card appearance="raised">
+  <div class="_header">
+    <div class="_title">{{filterItem.headerLabel}}</div>
+    <button mat-icon-button
+      matTooltip="Close"
+      tabindex="4"
+      (click)="closeClick()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <!-- header -->
+
+  <div class="_content"
+    [style.minWidth]="filterItem.controlMinWidth"
+    [style.maxWidth]="filterItem.controlMaxWidth">
+
+    <div class="_inner">
+      <mat-form-field subscriptSizing="dynamic"
+        [style.width]="filterItem.compareSelectWidth ?? '80px'">
+        <mat-select panelClass="dft-filter-compare-select-panel"
+          hideSingleSelectionIndicator="true"
+          [disabled]="filterItem.options?.length == 1"
+          [(ngModel)]="selectValue"
+          (selectionChange)="onSelectChanged()">
+          @for (item of filterItem.options; track item.value) {
+            <mat-option [value]="item">{{item.label}}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+
+      <form [formGroup]="formGroup">
+        @if (isDateType()) {
+          <mat-form-field subscriptSizing="dynamic"
+            [style.maxWidth]="filterItem.compareInputMaxWidth">
+            <input matInput
+              tabindex="1"
+              autocomplete="off"
+              formControlName="inputOne"
+              [matDatepicker]="datePickerOne"
+              [placeholder]="isBetweenType() ? 'Start Date' : 'Choose Date'"
+              (focus)="datePickerOne.open()"
+              (dateChange)="onStartDateChanged($event)">
+            <mat-datepicker-toggle matIconSuffix
+              [for]="datePickerOne"
+              [style.marginRight]="'-8px'" />
+            <mat-datepicker #datePickerOne
+              panelClass="dft-mat-filter-datepicker-panel" />
+          </mat-form-field>
+
+          @if (isBetweenType()) {
+            <div class="_divider"></div>
+            <mat-form-field subscriptSizing="dynamic"
+              [style.maxWidth]="filterItem.compareInputMaxWidth">
+              <input matInput
+                tabindex="2"
+                autocomplete="off"
+                placeholder="End Date"
+                formControlName="inputTwo"
+                [matDatepicker]="datePickerTwo"
+                [min]="formGroup.controls.inputOne.value"
+                (focus)="datePickerTwo.open()">
+              <mat-datepicker-toggle matIconSuffix
+                [for]="datePickerTwo"
+                [style.marginRight]="'-8px'" />
+              <mat-datepicker #datePickerTwo
+                panelClass="dft-mat-filter-datepicker-panel" />
+            </mat-form-field>
+          }
+        } @else {
+          <mat-form-field subscriptSizing="dynamic"
+            [style.maxWidth]="filterItem.compareInputMaxWidth">
+            <input matInput
+              tabindex="1"
+              autocomplete="off"
+              formControlName="inputOne"
+              [placeholder]="isBetweenType() ? 'Start' : 'Value'"
+              #numberInput>
+          </mat-form-field>
+
+          @if (isBetweenType()) {
+            <div class="_divider"></div>
+            <mat-form-field subscriptSizing="dynamic"
+              [style.maxWidth]="filterItem.compareInputMaxWidth">
+              <input matInput
+                tabindex="1"
+                placeholder="End"
+                autocomplete="off"
+                formControlName="inputTwo">
+            </mat-form-field>
+          }
+        }
+      </form>
+    </div>
+
+    @if ((formGroup.invalid || formGroup.errors) && formGroup.touched) {
+      <div class="_errors">
+        @for (error of formGroup.errors | keyvalue; track error.key) {
+          <mat-error> {{ error.key }} : {{ error.value }}</mat-error>
+        }
+      </div>
+    }
+
+    <div class="_actions">
+      <button mat-flat-button
+        tabindex="2"
+        [disabled]="formGroup.invalid"
+        (click)="applyClick()">
+        Apply
+      </button>
+    </div>
+  </div>
+</mat-card>

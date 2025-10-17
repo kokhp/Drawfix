@@ -1,0 +1,57 @@
+<mat-card appearance="raised">
+  <div class="_header">
+    <div class="_title">{{filterItem.headerLabel}}</div>
+    <button mat-icon-button
+      matTooltip="Close"
+      tabindex="4"
+      (click)="closeClick()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <!-- header -->
+
+  <div class="_content"
+    [style.minWidth]="filterItem.controlMinWidth"
+    [style.maxWidth]="filterItem.controlMaxWidth">
+    <form [formGroup]="formGroup">
+      <label for="text-input">{{filterItem.inputLabel}}</label>
+      <mat-form-field subscriptSizing="dynamic">
+        <input matInput
+          id="text-input"
+          placeholder="Value"
+          tabindex="1"
+          autocomplete="off"
+          formControlName="query"
+          (keydown.enter)="applyClick()"
+          #textInput>
+      </mat-form-field>
+
+      @if ((formGroup.invalid || formGroup.errors) && formGroup.touched) {
+        <div class="_errors">
+          <!-- Form-level errors -->
+          @for (error of formGroup.errors | keyvalue; track error.key) {
+            <mat-error> {{ error.key }} : {{ error.value }}</mat-error>
+          }
+
+          <!-- Control-level errors -->
+          @for (control of formGroup.controls | keyvalue; track control.key) {
+            @if (control.value.invalid && control.value.touched) {
+              @for (error of control.value.errors | keyvalue; track error.key) {
+                <mat-error> {{ error.key }} : {{ error.value }}</mat-error>
+              }
+            }
+          }
+        </div>
+      }
+    </form>
+
+    <div class="_actions">
+      <button mat-flat-button
+        tabindex="2"
+        [disabled]="formGroup.invalid"
+        (click)="applyClick()">
+        Apply
+      </button>
+    </div>
+  </div>
+</mat-card>

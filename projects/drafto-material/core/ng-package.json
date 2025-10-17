@@ -1,0 +1,6 @@
+{
+  "lib": {
+    "flatModuleFile": "dftMatCore",
+    "entryFile": "public-api.ts"
+  }
+}

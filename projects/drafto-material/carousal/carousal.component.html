@@ -1,0 +1,26 @@
+<div class="flex items-center px-6 relative carousal-container">
+  @if (paginationLeftEnabled()) {
+  <div class="absolute left-2 btn-prev">
+    <button mat-icon-button (click)="paginationBtnClick()">
+      <mat-icon class="size-7">chevron_left</mat-icon>
+    </button>
+  </div>
+  }
+
+  <div class="flex items-center gap-2 overflow-x-auto py-3 carousal" #carousal>
+    @for (item of list(); track $index) {
+      <ng-container
+        [ngTemplateOutlet]="cardTemplate()"
+        [ngTemplateOutletContext]="{item}"
+      />
+    }
+  </div>
+
+  @if (paginationRightEnabled()) {
+  <div class="absolute right-2 btn-next">
+    <button mat-icon-button (click)="paginationBtnClick(true)">
+      <mat-icon class="size-7">chevron_right</mat-icon>
+    </button>
+  </div>
+  }
+</div>

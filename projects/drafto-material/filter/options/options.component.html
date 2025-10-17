@@ -1,0 +1,118 @@
+<mat-card appearance="raised">
+  <div class="_header">
+    <div class="_title">{{filterItem.headerLabel}}</div>
+    <button mat-icon-button
+      matTooltip="Close"
+      tabindex="4"
+      (click)="closeClick()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  <!-- header -->
+
+  <div class="_content"
+    [style.minWidth]="filterItem.controlMinWidth"
+    [style.maxWidth]="filterItem.controlMaxWidth">
+
+    @if (filterItem.optionsSearchable) {
+      <div class="_search">
+        <mat-form-field appearance="outline" subscriptSizing="dynamic">
+          <input matInput
+            autocomplete="off"
+            placeholder="Type here to filter."
+            [disabled]="!isInitialized() || isSelectionVisible() == true"
+            [ngModel]="searchTerm()"
+            (ngModelChange)="searchTerm.set($event)">
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+      </div>
+    }
+    <!-- search -->
+
+    <div class="_list" #listContainer
+      [style.minHeight]="filterItem.controlMinHeight"
+      [style.maxHeight]="filterItem.controlMaxHeight">
+
+      @if (isSelectionVisible()) {
+        <mat-selection-list [multiple]="filterItem.optionsMultiple"
+          (selectionChange)="onSelectionChanged($event, true)">
+          @for (item of selectedList(); track $index) {
+            <mat-list-option togglePosition="before"
+              selected="true"
+              [value]="item.value">
+               @if (filterItem.optionsItemTemplateRef) {
+                <ng-container *ngTemplateOutlet="filterItem.optionsItemTemplateRef; context: { $implicit: item, index: $index, selected: item.selected }"></ng-container>
+              } @else {
+                {{item.label}}
+              }
+            </mat-list-option>
+          }
+        </mat-selection-list>
+      } @else {
+        <mat-selection-list infiniteScroll
+          [scrollTop]="false"
+          [scrollWindow]="false"
+          [infiniteScrollDisabled]="!filterItem.optionsPaginated || isBusy()"
+          [infiniteScrollContainer]="listContainer"
+          [multiple]="filterItem.optionsMultiple"
+          (scrolled)="onListScrolled()"
+          (selectionChange)="onSelectionChanged($event)">
+
+          @for (item of optionList(); track item.value) {
+            <mat-list-option togglePosition="before"
+              [selected]="item.selected"
+              [value]="item.value">
+              @if (filterItem.optionsItemTemplateRef) {
+                <ng-container *ngTemplateOutlet="filterItem.optionsItemTemplateRef; context: { $implicit: item, index: $index, selected: item.selected }"></ng-container>
+              } @else {
+                {{item.label}}
+              }
+            </mat-list-option>
+          } @empty {
+            @if(!isBusy()){
+              <div class="_no-data">
+                <span>No Data</span>
+              </div>
+            }
+          }
+
+          @if (isBusy()) {
+            <div class="_loader">
+              <mat-progress-spinner mode="indeterminate"
+                class="text-center"
+                [diameter]="30">
+              </mat-progress-spinner>
+            </div>
+          }
+
+          @if (!isBusy() && errors()) {
+            <div class="_errors">
+              <mat-error>{{errors()}}</mat-error>
+            </div>
+          }
+        </mat-selection-list>
+      }
+    </div>
+    <!-- list -->
+
+    <div class="_actions"
+      [class.space-between]="hasSelectionView()">
+      @if(hasSelectionView()) {
+        <button mat-button
+          (click)="showSelection.set(!showSelection())">
+          @if(!showSelection()){
+            <span>Selected: {{selectedList().length}}</span>
+          } @else {
+            <span>Hide</span>
+          }
+        </button>
+      }
+      <button mat-flat-button
+        tabindex="2"
+        [disabled]="isBusy() || selectedList().length == 0"
+        (click)="applyClick()">
+        Apply
+      </button>
+    </div>
+  </div>
+</mat-card>

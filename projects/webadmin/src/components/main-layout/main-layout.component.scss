@@ -1,0 +1,31 @@
+@use '@angular/material' as mat;
+
+dftwa-main-layout {
+  display: flex;
+  flex-direction: column;
+
+  --dftwa-layout-topnav-height: 68px;
+
+  .layout-container {
+    @include mat.sidenav-overrides((
+      container-shape: 0px,
+      container-background-color: var(--mat-sys-surface-container-lowest, --mat-sys-surface),
+      container-text-color: var(--mat-sys-on-surface-container-lowest, --mat-sys-on-surface-variant),
+      container-divider-color: var(--dftwa-line-divider, --mat-sys-outline-variant),
+      content-background-color: var(--mat-sys-surface-container-lowest, --mat-sys-surface),
+      content-text-color: var(--mat-sys-on-surface-container-lowest, --mat-sys-on-surface-variant),
+    ));
+    &{
+      height: calc(100vh - var(--dftwa-layout-topnav-height, 68px));
+    }
+
+    .layout-sidenav,
+    .layout-page {
+      transition: all 400ms ease-in-out;
+    }
+
+    .layout-sidenav .mat-drawer-inner-container{
+      overflow-y: hidden !important;
+    }
+  }
+}

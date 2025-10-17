@@ -1,0 +1,71 @@
+@use '@angular/material' as mat;
+
+html {
+  color-scheme: light;
+  @include mat.theme((
+    color: (
+      primary: mat.$azure-palette,
+        tertiary: mat.$blue-palette
+      ),
+    typography: 'Inter, Roboto, Arial, sans-serif',
+    density: 0
+  ));
+
+  @include mat.button-overrides((
+    filled-container-height: 36px,
+    outlined-container-height: 36px,
+    protected-container-height: 36px,
+    text-container-height: 36px
+  ));
+
+  @include mat.divider-overrides((
+    color: var(--mat-sys-outline-variant),
+  ));
+
+  @include mat.form-field-overrides((
+    container-height: 48px,
+    container-vertical-padding: 12px,
+  ));
+
+  @include mat.dialog-overrides((
+    container-shape: 12px,
+  ));
+}
+
+body {
+  background: var(--mat-sys-surface-container-lowest);
+  color: var(--mat-sys-on-surface);
+}
+
+.dftwa-dialog-height {
+  height: 80vh !important;
+}
+
+.dftwa-dialog-height-95vh {
+  height: 95vh !important;
+}
+
+.dftwa-dialog-height-90vh {
+  height: 90vh !important;
+}
+
+.dftwa-dialog-height-85vh {
+  height: 85vh !important;
+}
+
+.dftwa-dialog-height-75vh {
+  height: 75vh !important;
+}
+
+.dftwa-dialog-height-70vh {
+  height: 70vh !important;
+}
+
+.dftwa-dialog-height-60vh {
+  height: 60vh !important;
+}
+
+.dftwa-dialog-height-50vh {
+  height: 50vh !important;
+}
+

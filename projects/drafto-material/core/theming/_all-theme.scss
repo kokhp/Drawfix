@@ -1,0 +1,19 @@
+@use '@angular/material' as mat;
+
+// Create a theme.
+@mixin all-component-themes($theme) {
+  $dedupe-key: 'drafto-material-theme';
+
+  @include mat.private-check-duplicate-theme-styles($theme, $dedupe-key) {
+
+  }
+}
+
+@mixin all-component-bases($theme) {
+
+}
+
+// @deprecated Use `all-component-themes`.
+@mixin drafto-material-theme($theme) {
+  @include all-component-themes($theme);
+}

@@ -1,0 +1,171 @@
+<mat-card appearance="outlined">
+  <mat-card-header class="justify-center flex-col !p-0">
+    <div class="progress">
+      @if (isBusy()) {
+        <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+      }
+    </div>
+
+    <div class="flex justify-center flex-col mt-4">
+      <div class="flex justify-center">
+        <img class="h-[80px]" src="/img/logo-transparent.png" alt="Logo"/>
+      </div>
+
+      <div class="flex flex-col">
+        @if (!isOtpVerifyForm()) {
+          <h2 class="self-center my-2 font-semibold text-xl">Sign in</h2>
+          <p class="text-center text-sm">Access your account securely.</p>
+        } @else {
+          <h2 class="self-center my-2 font-semibold text-xl">Welcome</h2>
+          <mat-chip class="bg-none self-center cursor-pointer">
+            <mat-icon matChipAvatar>face</mat-icon>
+            <div class="flex items-center">
+              <span class="mx-2">{{form.controls['dialcode'].value}} {{form.controls['phoneNumber'].value}}</span>
+              <mat-icon>arrow_drop_down</mat-icon>
+            </div>
+          </mat-chip>
+        }
+      </div>
+    </div>
+  </mat-card-header>
+
+  <mat-card-content>
+    @if (!isOtpVerifyForm()) {
+      <div class="otp-login">
+        <form [formGroup]="form" class="flex">
+          <button mat-stroked-button class="country-code me-1 !px-[10px]" type="button"
+            >
+            <div class="flex items-center">
+              <div class="flex-col flag" style="background-position: -1px -2245px;"></div>
+              <mat-icon class="flex-col">arrow_drop_down</mat-icon>
+            </div>
+          </button>
+
+          <mat-form-field hideRequiredMarker appearance="outline" class="flex-grow" subscriptSizing="dynamic">
+            <mat-label>Phone number</mat-label>
+            <span matPrefix class="ms-3 me-2">{{form.controls['dialcode'].value}}</span>
+            <input matInput [tabIndex]="1" formControlName="phoneNumber" type="text"
+              autocomplete="tel" autocapitalize="none" autocorrect="off" spellcheck="false" />
+          </mat-form-field>
+          <!-- phone number -->
+        </form>
+
+        <div class="text-xs font-medium tracking-wide my-2 min-h-6">
+          @if (form.touched || form.dirty) {
+            @if (form.controls['phoneNumber'].hasError('required')) {
+              <mat-error>Phone number is required.</mat-error>
+            } @else if (form.controls['phoneNumber'].hasError('pattern')) {
+              <mat-error>Only numeric value accepted.</mat-error>
+            } @else if (form.controls['phoneNumber'].hasError('api')) {
+              <mat-error>{{form.controls['phoneNumber'].getError('api')}}</mat-error>
+            } @else if(form.hasError('api')) {
+              <mat-error>{{form.getError('api')}}</mat-error>
+            }
+          }
+        </div>
+        <p class="mt-5 text-center text-base">We will send an <b>OTP</b> (One time password) on this number.</p>
+      </div>
+    }
+    @else {
+      <div class="flex flex-col verify-opt">
+        <p class="text-center text-base">
+          A text message with a <span class="font-semibold">{{otpInputConfig.length}}-digit</span> verification code was just sent to:
+          <span class="font-semibold"> {{form.controls['dialcode'].value}} {{form.controls['phoneNumber'].value}}</span>
+        </p>
+
+        <div class="self-center my-4">
+          <ng-otp-input [config]="otpInputConfig"
+            (onInputChange)="onOtpChange($event)">
+          </ng-otp-input>
+        </div>
+
+        <div class="self-center text-center min-h-9">
+          Didn't receive OTP?
+          @if (otpResendCountdown() > 0) {
+            <span>Please wait <span class="font-semibold">{{otpResendCountdown()}}</span> secs</span>
+          } @else {
+            <button mat-button
+              style="--mat-sys-primary: var(--mat-sys-tertiary);"
+              class="ms-2"
+              [disabled]="otpResendBanned() || isBusy()"
+              (click)="onResendOtpClick()">
+              RE-SEND
+            </button>
+          }
+        </div>
+
+        @if(otpResendBanned()){
+          <div class="self-center text-center text-sm text-red-600 mt-2">
+            You have exceeded the maximum number of OTP requests. Please try again later.
+          </div>
+        }
+      </div>
+    }
+  </mat-card-content>
+
+  <mat-card-footer>
+    @if (!isOtpVerifyForm()) {
+      <div class="flex justify-between">
+        <a mat-button
+          [tabIndex]="-1"
+          [style.marginLeft]="'-8px'"
+          [routerLink]="[signInPassowrdPath]"
+          [queryParams]="signInPasswordQueryParams()"
+          [disabled]="isBusy()">
+          Try another way
+        </a>
+
+        <button type="submit"
+          mat-flat-button
+          color="primary"
+          class="px-4"
+          [tabIndex]="3"
+          [disabled]="!form.valid || isBusy()"
+          (click)="onNextClick()">
+
+          @if(isBusy()) {
+            <mat-progress-spinner
+              class="me-2"
+              [diameter]="20"
+              mode="indeterminate"
+              color="accent">
+            </mat-progress-spinner>
+          } @else {
+            <span>Next</span>
+          }
+        </button>
+      </div>
+    }
+    @else  {
+      <div class="flex justify-between">
+        <a mat-button
+          [tabIndex]="-1"
+          [style.marginLeft]="'-8px'"
+          [routerLink]="[signInPassowrdPath]"
+          [queryParams]="signInPasswordQueryParams()"
+          [disabled]="isBusy()">
+          Try another way
+        </a>
+
+        <button type="submit"
+          mat-flat-button
+          class="px-4"
+          [tabIndex]="3"
+          [disabled]="otpValue?.length !== otpInputConfig.length || isBusy()"
+          (click)="onSubmitOtpClick()">
+
+          @if(otpValue?.length == otpInputConfig.length && isBusy()) {
+            <mat-progress-spinner
+              class="me-2"
+              [diameter]="20"
+              mode="indeterminate"
+              color="accent">
+            </mat-progress-spinner>
+          } @else {
+            <span>Verify</span>
+          }
+        </button>
+      </div>
+    }
+  </mat-card-footer>
+</mat-card>

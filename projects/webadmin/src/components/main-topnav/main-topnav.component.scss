@@ -1,0 +1,42 @@
+@use '@angular/material' as mat;
+
+dftwa-main-topnav {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+  @include mat.toolbar-overrides((
+    container-background-color: var(--mat-sys-surface-container-lowest),
+    container-text-color: var(--mat-sys-on-surface-container-lowest),
+  ));
+
+  mat-toolbar {
+    box-shadow: 0 1px 4px 1px var(--mat-sys-surface-container);
+
+    >.actions {
+      >.btn-create {
+        @include mat.button-overrides((
+          outlined-outline-color: var(--dftwa-line-divider, --mat-sys-outline-variant),
+          outlined-label-text-size: var(--mat-sys-label-large-size),
+        ));
+      }
+
+      >.btn-profile {
+        @include mat.icon-button-overrides((
+          icon-size: 30px
+        ));
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+          border-radius: 100%;
+        }
+      }
+    }
+  }
+
+  .progres-bar {
+    height: 4px;
+  }
+}

@@ -1,0 +1,19 @@
+@use '@angular/material' as mat;
+
+.slide {
+    color: var(--mat-sys-primary);
+
+    @include mat.slide-toggle-overrides((
+        unselected-handle-size: '24px',
+        unselected-handle-horizontal-margin: '0 5px',
+    ));
+}
+
+.party {
+    @include mat.chips-overrides((
+        outline-width: 0,
+        container-height: 2,
+        elevated-container-color: rgb(237 237 237),
+        label-text-color: rgb(43 89 162),
+    ));
+}

@@ -1,0 +1,84 @@
+@use '@angular/material' as mat;
+
+.posterlist-itemcard {
+  .top-overlay {
+    height: 20%;
+    opacity: 0;
+    visibility: hidden;
+    background: linear-gradient(0deg, transparent 0%, rgba(0, 0, 0, 0.8) 100%);
+
+    &.show {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  .checkbox {
+    opacity: 0;
+    visibility: hidden;
+    @include mat.checkbox-overrides((
+      unselected-icon-color: #fff,
+      unselected-focus-icon-color: #fff,
+      unselected-hover-icon-color: #fff
+    ));
+
+    &.show {
+      opacity: 1;
+      visibility: visible;
+    }
+  }
+
+  .bottom-overlay {
+    height: 20%;
+    opacity: 0;
+    visibility: hidden;
+    background: linear-gradient(180deg, transparent 0%, rgba(0, 0, 0, 0.8) 100%);
+
+    &.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    >.actions {
+      @include mat.icon-button-overrides((
+        icon-color: #fff
+      ));
+    }
+  }
+
+  .footer {
+    font: var(--mat-sys-label-medium);
+    color: var(--mat-sys-outline);
+    .date {
+      font-weight: var(--mat-sys-body-medium-weight);
+      @include mat.icon-overrides((color: var(--mat-sys-outline)));
+    }
+    .category-tag {
+      background: var(--mat-sys-tertiary-container);
+      color: var(--mat-sys-on-tertiary-container);
+    }
+  }
+}
+
+.dftwa-posterlist-item-options-panel {
+  @include mat.menu-overrides((
+    container-shape: 8px,
+    container-color: var(--mat-sys-surface-container-lowest),
+  ));
+
+  &{
+    margin-top: -40px;
+  }
+  a,
+  button {
+    min-height: 38px;
+  }
+}
+
+.dftwa-posterlist-itemcard-popover {
+  // background: #fff !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2) !important;
+  padding: 10px !important;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}

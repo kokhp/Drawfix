@@ -1,0 +1,165 @@
+@use '@angular/material' as mat;
+
+.dft-mat-filter {
+  display: flex;
+
+  .wrapper {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    position: relative;
+
+    >.__filter{
+      display: flex;
+      flex-wrap: wrap;
+      padding: .25rem 0;
+      min-height: 48px;
+
+      >.__icon {
+        flex: 0 0 auto;
+        width: auto;
+        padding-top: 0.5rem;
+        padding-right: 1rem;
+      }
+
+      >.__input {
+        flex: 1 0 0%;
+
+        .__inner {
+          flex-grow: 1;
+          padding-left: 0.5rem;
+
+          input[type=text] {
+            border: none;
+            margin: 4px;
+            line-height: 30px;
+            font-size: 15px;
+            min-height: 28px;
+            min-width: 140px;
+            width: 100%;
+            outline: none;
+            background: inherit;
+
+
+            &:focus {
+              border: none;
+              outline: none;
+            }
+
+            &:active {
+              border: none;
+              outline: none;
+            }
+
+            &:disabled {
+              background: none;
+            }
+          }
+        }
+      }
+
+      >.__clear {
+        flex: 0 0 auto;
+        width: auto;
+
+        button {
+          height: 36px;
+          width: 36px;
+          padding: 4px;
+          margin-top: 2px;
+
+          .mat-mdc-button-touch-target {
+            height: 36px !important;
+            width: 36px !important;
+          }
+        }
+      }
+    }
+
+    .__shimmer {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: .25rem 0;
+    }
+
+    .__errors {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      padding: .25rem 1rem;
+      display: flex;
+      background: var(--mat-sys-error);
+      opacity: 0.7;
+      >p {
+        align-self: center;
+        text-align: center;
+        flex-grow: 1;
+        font: var(--mat-sys-body-medium);
+        color: var(--mat-sys-on-error);
+      }
+    }
+  }
+}
+
+.dft-filter-overlay-panel {
+  --dft-mat-filter-container-shape: 8px;
+  --dft-mat-filter-container-color: var(--mat-sys-surface-container-lowest);
+  --dft-mat-filter-container-elevation: 0 2px 2px 0 rgba(0, 0, 0, .14),
+    0 1px 5px 0 rgba(0, 0, 0, .12), 0 3px 1px -2px rgba(0, 0, 0, .2);
+  --dft-mat-filter-divider-color: var(--mat-sys-outline-variant);
+  --dft-mat-filter-item-hover-state-layer-color: var(--mat-sys-surface-bright);
+  --dft-mat-filter-item-text-color: var(--mat-sys-on-secondary-fixed);
+  --dft-mat-filter-item-text-size: var(--mat-sys-on-secondary-fixed);
+
+  --dft-mat-filter-title-text-size: var(--mat-sys-title-medium-size);
+  --dft-mat-filter-title-text-weight: var(--mat-sys-title-medium-weight);
+  --dft-mat-filter-title-text-tracking: var(--mat-sys-title-medium-tracking);
+  --dft-mat-filter-title-text-line-height: var(--mat-sys-title-medium-line-height);
+  --dft-mat-filter-title-text-font: var(--mat-sys-title-medium);
+
+  .__filter-list {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    max-width: 500px;
+    overflow-x: hidden;
+    margin-top: 0.25rem;
+    background: var(--dft-mat-filter-container-color);
+    box-shadow: var(--dft-mat-filter-container-elevation);
+    border-radius: var(--dft-mat-filter-container-shape);
+
+    @include mat.list-overrides((
+      list-item-one-line-container-height: 36px,
+      list-item-label-text-color: var(--mat-sys-on-secondary-fixed),
+      list-item-label-text-size: var(--mat-sys-label-large-size),
+      list-item-label-text-line-height: var(--mat-sys-title-large-line-height),
+      list-item-label-text-weight: var(--mat-sys-title-large-weight)
+    ));
+
+    ._divider {
+      margin-top: 4px;
+      margin-bottom: 4px;
+    }
+
+    .__item {
+      ._label {
+        margin-left: 0.25rem;
+        margin-right: 0.25rem;
+      }
+
+      ._highlight {
+        font-weight: var(--mat-sys-label-large-weight);
+      }
+
+      &:hover {
+        cursor: pointer;
+        background: var(--dft-mat-filter-item-hover-state-layer-color);
+      }
+    }
+  }
+}

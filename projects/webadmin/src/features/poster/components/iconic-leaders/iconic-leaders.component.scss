@@ -1,0 +1,25 @@
+@use '@angular/material' as mat;
+
+.slide {
+    @include mat.slide-toggle-overrides((
+        unselected-handle-size: '24px',
+        unselected-handle-horizontal-margin: '0 5px',
+        label-text-color: var(--mat-sys-primary)
+    ));
+}
+
+.leader-type {
+    .rectangle {
+        height: 6rem;
+        width: 4rem
+    }
+    .square {
+        height: 6rem;
+        width: 6rem
+    }
+    .circle {
+        height: 6rem;
+        width: 6rem;
+        border-radius: 9999px;
+    }
+}

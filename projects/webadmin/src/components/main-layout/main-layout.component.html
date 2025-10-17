@@ -1,0 +1,15 @@
+<dftwa-main-topnav></dftwa-main-topnav>
+<mat-sidenav-container class="layout-container"
+  [style.height]="containerHeight()">
+  <mat-sidenav opened
+    class="layout-sidenav"
+    [mode]="layoutStore.sidenavMode()"
+    [style.width]="layoutStore.sidenavWidth()">
+    <dftwa-main-sidenav></dftwa-main-sidenav>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="layout-page"
+    [style.marginLeft]="layoutStore.sidenavWidth()">
+    <router-outlet />
+  </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,0 +1,28 @@
+@use '@angular/material' as mat;
+
+.parties {
+    .orange {
+        @include mat.chips-overrides((
+            outline-width: 0,
+            container-height: 2,
+            elevated-container-color: rgb(252 233 212),
+            label-text-color: rgb(242 133 0),
+        ));
+    }
+    .sky {
+        @include mat.chips-overrides((
+            outline-width: 0,
+            container-height: 2,
+            elevated-container-color: rgb(216 229 241),
+            label-text-color: rgb(43 89 162),
+        ));
+    }
+    .more {
+        @include mat.chips-overrides((
+            outline-width: 0,
+            container-height: 2,
+            elevated-container-color: rgb(237 237 237),
+            label-text-color: rgb(43 89 162),
+        ));
+    }
+}

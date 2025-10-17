@@ -1,0 +1,117 @@
+<div class="flex justify-center reset">
+  <mat-card appearance="outlined">
+    <mat-card-header class="justify-center flex-col">
+      <div class="progress">
+        @if (!isBusy()) {
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        }
+      </div>
+
+      @if (!isPasswordResetSuccess()){
+        <div class="flex justify-center flex-col mt-4">
+          @if (true) {
+            <div class="flex justify-center">
+              <img class="h-[80px]" src="/img/logo-transparent.png" alt="Logo"/>
+            </div>
+          }
+
+          <div class="flex mt-1 flex-col">
+            <h2 class="self-center my-2 font-semibold text-xl">Create a strong password</h2>
+            <p class="self-center text-center px-10 text-sm">Create a strong password with a mix of letters, numbers and symbols</p>
+          </div>
+        </div>
+      }
+    </mat-card-header>
+
+    <mat-card-content>
+      @if (isPasswordResetSuccess()) {
+        <div class="flex justify-center flex-col mt-4 reset-success">
+          <div class="icon text-center">
+            <mat-icon>verified</mat-icon>
+          </div>
+          <h2 class="text-center mb-4 font-semibold text-xl">Password Reset Successful!</h2>
+          <p class="text-center px-3 text-base">
+            Congratulations! Your password has been successfully reset.
+          </p>
+          <p class="mt-5 text-center text-sm">Redirecting within 5 seconds.</p>
+        </div>
+      } @else {
+        <form [formGroup]="formPassword" class="flex flex-col mt-2">
+          <mat-form-field appearance="outline" hideRequiredMarker="true">
+            <mat-label>New Password</mat-label>
+            <input matInput
+              [tabIndex]="1"
+              [type]="isPasswordVisible() ? 'text' : 'password'"
+              autocomplete="new-password"
+              formControlName="password" />
+
+            @if (formPassword.controls['password'].errors) {
+              <mat-error class="field-error">
+                Password is required
+              </mat-error>
+            }
+          </mat-form-field>
+          <!-- password -->
+
+          <mat-form-field appearance="outline"
+            hideRequiredMarker="true"
+            subscriptSizing="dynamic">
+            <mat-label>Confirm Password</mat-label>
+            <input matInput
+              [tabIndex]="2"
+              type="text"
+              autocomplete="new-password"
+              formControlName="confirmPassword">
+            @if (formPassword.controls['confirmPassword'].errors) {
+              <mat-error class="field-error">
+               Confirm Password is required
+              </mat-error>
+            }
+          </mat-form-field>
+          <!-- confirmPassword -->
+
+          <mat-checkbox class="mt-1"
+            [tabIndex]="-1"
+            [ngModelOptions]="{ standalone: true }"
+            [(ngModel)]="isPasswordVisible"
+            [style.marginLeft]="'-10px'">
+            Show Password
+          </mat-checkbox>
+        </form>
+      }
+    </mat-card-content>
+
+    <mat-card-footer>
+      @if (!isPasswordResetSuccess()) {
+        <div class="flex justify-end">
+          <button type="submit"
+              mat-button
+              class="px-4 me-2"
+              [tabIndex]="4"
+              (click)="onSkipClick()">
+              Skip
+          </button>
+
+          <button type="submit"
+              mat-flat-button
+              class="px-4 ms-2"
+              [tabIndex]="3"
+              (click)="onNextClick()">
+              Next
+          </button>
+        </div>
+      } @else {
+        <div class="flex justify-center">
+          <button type="submit"
+            mat-button
+            class="px-4"
+            [tabIndex]="1"
+            (click)="onGotoHomeClick()">
+            Goto Dashboard
+          </button>
+        </div>
+      }
+    </mat-card-footer>
+  </mat-card>
+</div>
+
