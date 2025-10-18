@@ -1,0 +1,103 @@
+@if (showFilters()) {
+  <mat-card appearance="outlined" class="category-list-card">
+    <dft-mat-filter
+      class="filter-bar"
+      enableQueryParam="false"
+      filterId="category-list-filters"
+      removeAllButtonRightMargin="-10px"
+      xPadding="1rem"
+      [filters]="filterList()"
+      [disabled]="false"
+      (onApplied)="onFilterApplied($event)"
+    ></dft-mat-filter>
+    <div class="table">
+      <div class="row header">
+        <div class="cell checkbox"></div>
+        <div class="cell">Name</div>
+        <div class="cell">Status</div>
+        <div class="cell">Position</div>
+        <div class="cell">Posters</div>
+        <div class="cell">Date</div>
+        <div class="cell">Language</div>
+      </div>
+
+       @for (v of pageRows(); track v.id) {
+        <div class="row">
+          <div class="cell checkbox">
+            <mat-checkbox></mat-checkbox>
+          </div>
+          <div class="cell video">
+            <mat-icon color="primary">push_pin</mat-icon>
+            <div class="meta">
+              <div class="title">
+                {{ v.title }}
+              </div>
+              <div class="desc">
+                <mat-icon inline>visibility</mat-icon>
+                Rules: {{ v.rulesCount }}
+              </div>
+            </div>
+          </div>
+
+          <div class="cell">
+            <!-- Status: toggle + menu -->
+            <mat-slide-toggle [checked]="v.status === 'Active'" (change)="onToggleStatus(v, $event.checked)"></mat-slide-toggle>
+            <button mat-icon-button [matMenuTriggerFor]="statusMenu"><mat-icon>more_vert</mat-icon></button>
+            <mat-menu #statusMenu="matMenu">
+              <button mat-menu-item (click)="onSelectStatus(v, 'Active')">
+                <mat-radio-group [value]="v.status">
+                  <mat-radio-button value="Active">Active</mat-radio-button>
+                </mat-radio-group>
+              </button>
+              <button mat-menu-item (click)="onSelectStatus(v, 'Inactive')">
+                <mat-radio-group [value]="v.status">
+                  <mat-radio-button value="Inactive">Inactive</mat-radio-button>
+                </mat-radio-group>
+              </button>
+            </mat-menu>
+          </div>
+
+          <div class="cell">
+            {{ v.position }}
+          </div>
+
+          <div class="cell">
+            {{ v.posters }}
+          </div>
+
+          <div class="cell">
+            <div class="date-label">{{ v.date }}</div>
+            <div class="date-status">
+              <mat-icon inline>person</mat-icon>
+              {{ v.createdBy }}
+            </div>
+          </div>
+
+          <div class="cell">
+            <div class="langs">
+              @for (lang of v.languages; track lang) {
+                <span class="chip">{{ lang[0] }}</span>
+              }
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+    <div class="footer">
+      <span class="spacer"></span>
+      <span class="rows-label">Rows per page:</span>
+      <mat-select class="rows-select" [value]="pageSize()" (selectionChange)="setPageSize($event.value)" [panelClass]="'rows-per-page-panel'">
+        <mat-option [value]="10">10</mat-option>
+        <mat-option [value]="30">30</mat-option>
+        <mat-option [value]="50">50</mat-option>
+      </mat-select>
+      <span>{{ startIndex() + 1 }}–{{ endIndex() }} of {{ filteredRows().length }}</span>
+      <button class="nav" type="button" (click)="firstPage()" [disabled]="pageIndex() === 0"><mat-icon>first_page</mat-icon></button>
+      <button class="nav" type="button" (click)="previousPage()" [disabled]="pageIndex() === 0"><mat-icon>chevron_left</mat-icon></button>
+      <button class="nav" type="button" (click)="nextPage()" [disabled]="pageIndex() >= totalPages() - 1"><mat-icon>chevron_right</mat-icon></button>
+      <button class="nav" type="button" (click)="lastPage()" [disabled]="pageIndex() >= totalPages() - 1"><mat-icon>last_page</mat-icon></button>
+      
+    </div>
+  </mat-card>
+}
