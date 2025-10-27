@@ -1,0 +1,80 @@
+<div class="flex flex-col mb-4">
+  <div class="flex content-between items-center">
+    <p class="font-medium flex-grow">Allow Iconic Leaders:</p>
+    <p class="slide">
+      No
+      <mat-slide-toggle [(ngModel)]="checked" hideIcon>Yes</mat-slide-toggle>
+    </p>
+  </div>
+  <p class="help text-sm mt-1" style="color: var(--mat-sys-on-surface-variant)">
+    Enable this option to allow the selection of iconic leaders for this poster.
+    If turned on, you can configure which iconic leaders can be applied, manage
+    their placement, and customise their appearance within the design.
+  </p>
+</div>
+@if (checked) {
+<div class="flex flex-col mb-4">
+  <div class="flex content-between items-center">
+    <p class="font-medium flex-grow">Iconic Leaders Limit:</p>
+    <p class="flex items-center gap-2">
+      <button
+        mat-mini-fab
+        matSuffix
+        class="!rounded-full"
+        (click)="minus($event)"
+        [disabled]="maxLeaders < 1"
+      >
+        <mat-icon matSuffix>remove</mat-icon>
+      </button>
+      <mat-form-field
+        class="w-16"
+        appearance="outline"
+        subscriptSizing="dynamic"
+      >
+        <input type="number" [(ngModel)]="maxLeaders" matInput min="0" />
+      </mat-form-field>
+      <button
+        mat-mini-fab
+        matSuffix
+        class="!rounded-full"
+        (click)="plus($event)"
+      >
+        <mat-icon matSuffix>add</mat-icon>
+      </button>
+    </p>
+  </div>
+  <p class="help text-sm mt-1" style="color: var(--mat-sys-on-surface-variant)">
+    Set the maximum number of iconic leaders that can be applied to the poster.
+    This limit helps control the design layout and ensures the poster maintains
+    a balanced appearance.
+  </p>
+</div>
+<div class="flex flex-col mb-4">
+  <div class="flex flex-col mb-4">
+    <div class="flex content-between items-center">
+      <p class="font-medium flex-grow">Iconic Leaders Type:</p>
+    </div>
+    <p
+      class="help text-sm mt-1"
+      style="color: var(--mat-sys-on-surface-variant)"
+    >
+      Enable this option to specify the shape of iconic leader's photo on the
+      poster. Once selected, you can choose from available shapes such as
+      Rectangle, Square, or Circle to ensure a consistant design style.
+    </p>
+  </div>
+  <div class="flex gap-4 leader-type">
+    @for (type of types; track type) {
+    <div
+      class="{{ type }} rounded cursor-pointer border"
+      [class.border-blue-300]="type === leaderType"
+      (click)="leaderType = type"
+    >
+      @if(type === leaderType) {
+      <mat-icon class="text-blue-700">check_circle</mat-icon>
+      }
+    </div>
+    }
+  </div>
+</div>
+}

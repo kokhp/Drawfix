@@ -1,0 +1,76 @@
+@use '@angular/material' as mat;
+@use '@drafto/material' as dft;
+
+dftwa-reset {
+  .reset {
+    margin-top: 3rem;
+
+    >mat-card {
+      @include mat.card-overrides((
+        outlined-container-shape: 8px,
+        outlined-container-color: var(--mat-sys-surface-container-lowest),
+      ));
+      &{
+        width: 450px;
+        min-height: 500px;
+      }
+
+      >mat-card-header {
+        padding: 0 !important;
+
+        .progress {
+          height: 4px;
+          overflow: hidden;
+          border-top-right-radius: 8px;
+          border-top-left-radius: 8px;
+        }
+      }
+
+      >mat-card-content {
+        padding: 18px 40px 26px;
+
+        .reset-success {
+
+          .icon mat-icon {
+            width: 115px;
+            height: 115px;
+            font-size: 85px;
+            color: rgb(2, 151, 2);
+          }
+        }
+      }
+
+      >mat-card-footer {
+        padding: 0px 40px 26px;
+      }
+    }
+
+    @include dft.breakpoint(sm) {
+      margin-top: 0px;
+
+      >mat-card {
+        width: 100%;
+        border: none;
+        border-radius: unset;
+
+        >mat-card-header {
+          .progress {
+            border-top-right-radius: unset;
+            border-top-left-radius: unset;
+            margin-bottom: 30px;
+          }
+        }
+
+        >mat-card-content {
+          padding-left: 20px;
+          padding-right: 20px;
+        }
+
+        >mat-card-footer {
+          padding-left: 20px;
+          padding-right: 20px;
+        }
+      }
+    }
+  }
+}

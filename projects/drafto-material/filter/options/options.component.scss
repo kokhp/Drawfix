@@ -1,0 +1,113 @@
+@use '@angular/material' as mat;
+
+.dft-filter-overlay-panel {
+  .dft-mat-filter-options {
+    --dft-mat-filter-text-label-font: var(--mat-sys-label-medium);
+    --dft-mat-filter-text-label-size: var(--mat-sys-label-medium-size);
+    --dft-mat-filter-text-label-weight: var(--mat-sys-body-small-weight);
+    --dft-mat-filter-text-label-line-height: var(--mat-sys-label-medium-height);
+    --dft-mat-filter-text-label-tracking: var(--mat-sys-label-medium-tracking);
+    --dft-mat-filter-text-label-color: var(--mat-sys-on-surface-variant);
+
+    --dft-mat-filter-text-input-font: var(--mat-sys-body-large-font);
+    --dft-mat-filter-text-input-size: var(--mat-sys-body-large-size);
+    --dft-mat-filter-text-input-weight: var(--mat-sys-body-large-weight);
+    --dft-mat-filter-text-input-line-height: var(--mat-sys-body-large-line-height);
+    --dft-mat-filter-text-input-tracking: var(--mat-sys-body-large-tracking);
+    --dft-mat-filter-text-input-color: var(--mat-sys-on-surface-variant);
+
+
+    @include mat.card-overrides((
+      elevated-container-color: var(--dft-mat-filter-container-color, var(--mat-sys-surface)),
+      elevated-container-elevation: var(--dft-mat-filter-container-elevation, var(--mat-sys-level1)),
+      elevated-container-shape: var(--dft-mat-filter-container-shape, 8px)
+    ));
+
+    ._header {
+      display: flex;
+      justify-content: space-between;
+      padding: 6px 6px 6px 16px;
+      border-bottom: 1px solid var(--dft-mat-filter-divider-color);
+
+      ._title {
+        align-self: center;
+        font: var(--dft-mat-filter-title-text-font);
+        font-size: var(--dft-mat-filter-title-text-size);
+        font-weight: var(--dft-mat-filter-title-text-weight);
+        line-height: var(--dft-mat-filter-title-text-line-height);
+        letter-spacing: var(--dft-mat-filter-title-text-tracking);
+      }
+
+      button {
+        height: 36px;
+        width: 36px;
+        padding: 5px;
+
+        .mat-mdc-button-touch-target {
+          height: 36px !important;
+          width: 36px !important;
+        }
+      }
+    }
+
+    ._content {
+      display: flex;
+      flex-direction: column;
+
+      >._search {
+        display: flex;
+        padding: 0 16px;
+        margin-top: 8px;
+
+        @include mat.form-field-overrides((
+          container-height: 36px,
+          container-vertical-padding: 8px,
+          container-text-font: var(--mat-sys-body-small)
+        ));
+
+        mat-form-field {
+          flex-grow: 1;
+        }
+      }
+
+      >._list {
+        max-height: 350px;
+        min-width: 250px;
+        overflow-y: auto;
+        margin-bottom: 10px;
+
+        @include mat.list-overrides((
+          list-item-one-line-container-height: 36px,
+          list-item-label-text-color: var(--mat-sys-on-secondary-fixed),
+          list-item-label-text-size: var(--mat-sys-label-large-size),
+          list-item-label-text-line-height: var(--mat-sys-title-large-line-height),
+          list-item-label-text-weight: var(--mat-sys-title-large-weight),
+        ));
+
+        .mdc-list-item__start {
+          margin-right: 4px;
+          margin-left: 6px;
+        }
+
+
+        ._loader,
+        ._errors,
+        ._no-data {
+          display: flex;
+          justify-content: center;
+        }
+      }
+
+      >._actions {
+        display: flex;
+        justify-content: end;
+        padding: 8px;
+        border-top: 1px solid var(--dft-mat-filter-divider-color);
+
+        &.space-between {
+          justify-content: space-between;
+        }
+      }
+    }
+  }
+}

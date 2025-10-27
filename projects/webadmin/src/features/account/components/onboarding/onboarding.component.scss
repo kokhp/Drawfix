@@ -1,0 +1,43 @@
+@use '@angular/material' as mat;
+@use '@drafto/material' as dft;
+
+dftwa-onboarding {
+  // @include mat.theme-overrides((
+  //   primary: mat.$azure-palette,
+  //   tertiary: mat.$blue-palette
+  // ));
+
+  display: block !important;
+
+  >.onboarding {
+    margin-top: 3rem;
+
+    >.inner {
+      width: 450px;
+    }
+  }
+
+  @include dft.breakpoint(sm) {
+    >.onboarding {
+      margin-top: 0px;
+
+      >.inner {
+        width: 100%;
+      }
+    }
+
+    >.links {
+      position: absolute;
+      bottom: 20px;
+      left: 0;
+      right: 0;
+      padding-left: 20px;
+      padding-right: 20px;
+      margin-bottom: 0;
+
+      >footer-links {
+        width: 100%;
+      }
+    }
+  }
+}

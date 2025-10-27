@@ -1,0 +1,9 @@
+@use '@angular/material' as mat;
+
+.slide {
+    @include mat.slide-toggle-overrides((
+        unselected-handle-size: '24px',
+        unselected-handle-horizontal-margin: '0 5px',
+        label-text-color: var(--mat-sys-primary)
+    ));
+}

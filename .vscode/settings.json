@@ -1,0 +1,15 @@
+{
+  "eslint.rules.customizations": [],
+  "prettier.useEditorConfig": false,
+  "prettier.printWidth": 110,
+  "scss.validate": false,
+  "css.validate": false,
+  "angular.experimental.sassInitialization": false,
+  "github.copilot.nextEditSuggestions.enabled": false,
+  "github.copilot.nextEditSuggestions.fixes": false,
+  "karmaTestExplorer.projectWorkspaces": [
+    "projects/drafto",
+    "projects/drafto-material",
+    "projects/webadmin"
+  ]
+}

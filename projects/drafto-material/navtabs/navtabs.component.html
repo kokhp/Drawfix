@@ -1,0 +1,26 @@
+<div class="wrapper">
+  <div class="__tabs">
+    <nav mat-tab-nav-bar
+      disableRipple="true"
+      [mat-stretch-tabs]="stretchTabs()"
+      [fitInkBarToContent]="fitInkBarToContent()"
+      [tabPanel]="tabPanel()">
+
+      @for (item of filteredTabs(); track item.routePath) {
+        <a matTabLink
+          class="__item"
+          (click)="navigateTab(item)"
+          [active]="activeTab()?.routePath === item.routePath"
+          [disabled]="item.disabled">
+          <span>{{item.label}}</span>
+        </a>
+      }
+    </nav>
+  </div>
+
+  @if(headerExtraTemplateRef()) {
+    <div class="extras">
+      <ng-container [ngTemplateOutlet]="headerExtraTemplateRef() ?? null"></ng-container>
+    </div>
+  }
+</div>

@@ -1,0 +1,76 @@
+<div class="flex flex-col mb-3">
+  <div class="flex flex-col mb-4">
+    <div class="flex content-between items-center">
+      <p class="font-medium flex-grow">Show To All Categories:</p>
+      <div class="flex items-center gap-4">
+        <button mat-icon-button matSuffix (click)="toggleSettings($event)">
+          <mat-icon matSuffix>settings</mat-icon>
+        </button>
+        <p class="slide">
+          No
+          <mat-slide-toggle [(ngModel)]="checked" hideIcon
+            >Yes</mat-slide-toggle
+          >
+        </p>
+      </div>
+    </div>
+    <p
+      class="help text-sm mt-1"
+      style="color: var(--mat-sys-on-surface-variant)"
+    >
+      If enabled, this poster will be available in all categories under the
+      Greetings tab. You can also configure settings such as "Published At",
+      "Expriy At", and other visibility options that will apply to all
+      categories collectively.
+    </p>
+  </div>
+  @if (!checked) {
+  <div class="flex flex-col mb-4">
+    <div class="flex content-between items-center">
+      <p class="font-medium flex-grow">Greeting Categories:</p>
+    </div>
+    <p
+      class="help text-sm mt-1"
+      style="color: var(--mat-sys-on-surface-variant)"
+    >
+      If enabled, this poster will be available in all categories under the
+      Greetings tab. You can also configure settings such as "Published At",
+      "Expriy At", and other visibility options that will apply to all
+      categories collectively.
+    </p>
+  </div>
+  <mat-form-field
+    class="w-full mb-4 h-28"
+    appearance="outline"
+    subscriptSizing="dynamic"
+  >
+    <mat-chip-grid class="more" #stateChipGrid>
+      @for (category of selectedCategories(); track category.id) {
+      <mat-chip-row (removed)="categoryRemove(category.id)">
+        {{ category.title }}
+        <button matChipRemove>
+          <mat-icon>close</mat-icon>
+        </button>
+      </mat-chip-row>
+      }
+      <input
+        #categoryInput
+        [matChipInputFor]="stateChipGrid"
+        [matAutocomplete]="stateAutocomplete"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+      />
+      <mat-autocomplete
+        #stateAutocomplete="matAutocomplete"
+        (optionSelected)="categorySelected($event); categoryInput.value = ''"
+      >
+        @for (category of filteredCategory(); track category.id) {
+        <mat-option [value]="category">{{ category.title }}</mat-option>
+        }
+      </mat-autocomplete>
+    </mat-chip-grid>
+    <button mat-icon-button matSuffix (click)="clearAll($event)">
+      <mat-icon matSuffix>close</mat-icon>
+    </button>
+  </mat-form-field>
+  }
+</div>

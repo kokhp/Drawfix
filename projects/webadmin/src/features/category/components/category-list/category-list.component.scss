@@ -1,0 +1,317 @@
+.category-list-card {
+  // margin: 16px 24px;
+  border-radius: 10px;
+  // padding: 8px 0 0;
+
+  .toolbar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--mat-sys-on-surface-variant);
+    padding: 4px 16px 8px;
+    font-size: 14px;
+
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  .filter-bar {
+    display: block;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    margin: 0;
+  }
+  .table {
+    display: grid;
+    grid-template-columns: 3fr 1.2fr 1fr 1.2fr 1.6fr 1.4fr;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+
+    .row {
+      display: contents;
+    }
+
+    .row.header .cell {
+      background: transparent;
+      font-weight: 700;
+      color: #000;
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    }
+
+    .cell {
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 14px;
+    }
+
+    .cell.status-cell {
+      position: relative;
+      cursor: pointer;
+      justify-content: space-between;
+
+      .status-value {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .status-arrow {
+        opacity: 0;
+        transition: opacity 0.2s;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: -8px;
+
+        mat-icon {
+          font-size: 24px;
+          width: 24px;
+          height: 24px;
+        }
+      }
+
+      &:hover .status-arrow {
+        opacity: 1;
+      }
+    }
+
+    .cell.video {
+      gap: 12px;
+
+      .meta {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+
+        .title {
+          font-weight: 600;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+        .desc {
+          color: var(--mat-sys-on-surface-variant);
+          font-size: 12px;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+        }
+      }
+    }
+
+    .cell.date {
+      gap: 12px;
+
+      .meta {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+
+        .date {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+        .dateType {
+          color: var(--mat-sys-on-surface-variant);
+          font-size: 12px;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+        }
+      }
+    }
+
+    .date-label {
+      font-weight: 500;
+    }
+    .date-status {
+      color: var(--mat-sys-on-surface-variant);
+      font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .langs {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .chip {
+      background: #2196f3;
+      color: white;
+      border-radius: 6px;
+      padding: 2px 6px;
+      font-size: 12px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .row:last-child .cell {
+      border-bottom: none;
+    }
+  }
+
+  .footer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 12px;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    color: var(--mat-sys-on-surface-variant);
+    font-size: 13px;
+
+    .rows-select {
+      width: 80px;
+      padding-right: 20px;
+    }
+    .spacer {
+      flex: 1 1 auto;
+    }
+    .nav {
+      min-width: 0;
+      background: transparent;
+      border: 0;
+      color: var(--mat-sys-on-surface-variant);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      padding: 0;
+    }
+    .nav[disabled] {
+      opacity: 0.38;
+      cursor: default;
+    }
+    mat-icon {
+      font-size: 18px;
+      width: 18px;
+      height: 18px;
+    }
+  }
+}
+
+:host ::ng-deep .dft-mat-filter-compare {
+  /* Ensure numeric inputs show full numbers without truncation */
+  input[type="number"],
+  input[type="text"] {
+    font-size: var(--mat-sys-body-medium-size);
+    font-variant-numeric: lining-nums tabular-nums; /* consistent digits */
+  }
+  .mat-mdc-form-field-infix {
+    min-width: 0; /* allow full number display */
+  }
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  .rows-label {
+    font-size: 12px;
+    color: var(--mat-sys-on-surface-variant);
+  }
+  .rows-select {
+    font-size: 12px;
+    min-width: 64px;
+  }
+  .rows-select .mat-mdc-select-value-text {
+    font-size: 12px;
+  }
+
+  .nav mat-icon {
+    font-size: 18px;
+  }
+}
+
+/* Style the open panel for rows-per-page select */
+:host ::ng-deep .rows-per-page-panel {
+  .mat-mdc-option {
+    font-size: 12px;
+  }
+  .mat-mdc-option .mdc-list-item__primary-text {
+    font-size: 12px;
+  }
+  .mat-mdc-select-panel {
+    min-width: 80px;
+  }
+}
+
+/* Ensure the selected value displays fully when the select is open/closed */
+:host ::ng-deep .rows-select .mat-mdc-select-value {
+  white-space: nowrap;
+  overflow: visible;
+  text-overflow: clip;
+}
+
+/* Status Dialog Styles */
+:host ::ng-deep .status-dialog-panel {
+  .mat-mdc-dialog-container {
+    border-radius: 8px;
+  }
+
+  .mat-mdc-dialog-surface {
+    border-radius: 8px;
+  }
+}
+
+/* Already added compare dialog numeric fixes earlier */
+:host ::ng-deep .dft-mat-filter-compare {
+  input[type="number"],
+  input[type="text"] {
+    font-variant-numeric: lining-nums tabular-nums;
+  }
+  .mat-mdc-form-field-infix {
+    min-width: 0;
+  }
+}
+
+.pl-1-5 {
+  padding-left: 1.5rem !important;
+}
+
+// For the mat-menu panel styling
+.status-menu {
+  .mat-mdc-menu-panel {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 0;
+    min-width: 280px;
+  }
+
+  .mat-mdc-menu-content {
+    padding: 0;
+  }
+}
+
+.status-menu-container {
+  background-color: #fff;
+  color: #000;
+}
+
+.status-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 19px;
+  color: #0f0f0f;
+}
+
+:host ::ng-deep .mat-mdc-menu-panel {
+  min-width: 400px !important;
+  max-width: 450px !important;
+}
+
+
+// mat-mdc-menu-panel mat-menu-after mat-menu-below status-menu mat-menu-panel-animations-disabled

@@ -1,0 +1,26 @@
+<div class="flex flex-col mb-4">
+  <div class="flex flex-col mb-4">
+    <div class="flex content-between items-center">
+      <p class="font-medium flex-grow capitalize">
+        {{ type() }} template categories:
+      </p>
+    </div>
+    <p
+      class="help text-sm mt-1"
+      style="color: var(--mat-sys-on-surface-variant)"
+    >
+      Choose a category to apply relevant political templates to the poster.
+      Categories may include party-based designs, leader tributes, election
+      campaigns, announcements, and more.
+    </p>
+  </div>
+  <p>
+    <mat-form-field appearance="outline" subscriptSizing="dynamic">
+      <mat-select placeholder="Choose Categories">
+        @for (category of categories(); track category.id) {
+        <mat-option [value]="category">{{ category.title }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+  </p>
+</div>

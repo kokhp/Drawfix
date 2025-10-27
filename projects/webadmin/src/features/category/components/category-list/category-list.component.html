@@ -1,0 +1,121 @@
+@if (showFilters()) {
+
+<div class="page-title sticky left-0 px-0">
+  <div class="flex bg-white sticky top-[60px] left-0 z-20 border-b">
+    <dft-mat-filter
+      class="flex-grow"
+      enableQueryParam="false"
+      filterId="manage-ordering-filters"
+      removeAllButtonRightMargin="-10px"
+      xPadding="1.5rem"
+      [style.top]="'60px'"
+      [filters]="filterList()"
+      [disabled]="false"
+      (onApplied)="onFilterApplied($event)"
+    >
+    </dft-mat-filter>
+  </div>
+</div>
+
+<div appearance="outlined" class="category-list-card">
+  <div class="table">
+    <div class="row header">
+      <div class="cell pl-1-5">Name</div>
+      <div class="cell">Status</div>
+      <div class="cell">Position</div>
+      <div class="cell">Posters</div>
+      <div class="cell">Date</div>
+      <div class="cell">Language</div>
+    </div>
+
+    @for (v of pageRows(); track v.id) {
+    <div class="row">
+      <div class="cell video pl-1-5">
+        <div class="meta">
+          <div class="title">
+            {{ v.title }}
+          </div>
+          <div class="desc">
+            <mat-icon inline>visibility</mat-icon>
+            Rules: {{ v.rulesCount }}
+          </div>
+        </div>
+      </div>
+
+      <div class="cell status-cell">
+        <span class="status-value">
+          @if(v.status === 'Active'){
+          <mat-icon class="status-icon">check_circle</mat-icon>
+          } @else {
+          <mat-icon class="status-icon">cancel</mat-icon>
+          }
+          {{ v.status }}
+        </span>
+        <button mat-icon-button class="status-arrow" [matMenuTriggerFor]="statusMenu">
+          <mat-icon>arrow_drop_down</mat-icon>
+        </button>
+        <mat-menu #statusMenu="matMenu" class="status-menu" panelClass="status-menu-panel">
+          <ng-template matMenuContent>
+            <div (click)="$event.stopPropagation()" class="status-menu-container">
+              <dftwa-update-category-status
+                [status]="v.status"
+                (statusChange)="onStatusChange($event, v)"
+              ></dftwa-update-category-status>
+            </div>
+          </ng-template>
+        </mat-menu>
+      </div>
+
+      <div class="cell">
+        {{ v.position }}
+      </div>
+
+      <div class="cell">
+        {{ v.posters }}
+      </div>
+
+      <div class="cell date">
+        <div class="meta">
+          <div class="date">
+            {{ v.date }}
+            <mat-icon matTooltip="{{ v.createdBy }}" matTooltipPosition="right" inline>person</mat-icon>
+          </div>
+          <div class="dateType">
+            {{ v.dateType }}
+          </div>
+        </div>
+      </div>
+
+      <div class="cell">
+        <div class="langs">
+          @for (lang of v.languages; track lang) {
+          <span class="chip" matTooltip="{{ lang }}" matTooltipPosition="below">{{ lang[0] }}</span>
+          }
+        </div>
+      </div>
+    </div>
+    }
+  </div>
+
+  <div class="footer">
+    <span class="spacer"></span>
+    <span class="rows-label">Rows per page:</span>
+    <mat-select
+      class="rows-select"
+      [value]="pageSize()"
+      (selectionChange)="setPageSize($event.value)"
+      [panelClass]="'rows-per-page-panel'"
+    >
+      <mat-option [value]="10">10</mat-option>
+      <mat-option [value]="30">30</mat-option>
+      <mat-option [value]="50">50</mat-option>
+    </mat-select>
+    <button class="nav" type="button" (click)="previousPage()" [disabled]="pageIndex() === 0">
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+    <button class="nav" type="button" (click)="nextPage()" [disabled]="pageIndex() >= totalPages() - 1">
+      <mat-icon>chevron_right</mat-icon>
+    </button>
+  </div>
+</div>
+}

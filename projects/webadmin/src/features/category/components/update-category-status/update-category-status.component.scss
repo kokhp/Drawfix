@@ -1,0 +1,99 @@
+.status-selector {
+  padding: 24px;
+  min-width: 400px;
+  max-width: 450px;
+}
+
+.status-title {
+  margin: 0 0 16px 0;
+  font-size: 16px;
+  font-weight: 500;
+  color: #0f0f0f;
+}
+
+.status-options {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+.status-option {
+  padding: 12px;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+}
+
+.option-content {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-left: 8px;
+}
+
+.option-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  color: #0f0f0f;
+}
+
+.option-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.option-label {
+  font-size: 14px;
+  font-weight: 500;
+  color: #0f0f0f;
+}
+
+.option-description {
+  font-size: 12px;
+  color: #0f0f0f;
+}
+
+.status-footer {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  padding-top: 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.cancel-btn {
+  color: #0f0f0f;
+  border-radius: 20px;
+  padding: 0 16px;
+  height: 36px;
+  font-weight: 500;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+  }
+}
+
+.save-btn {
+  color: #0f0f0f;
+  border-radius: 20px;
+  padding: 0 16px;
+  height: 36px;
+  font-weight: 500;
+}
+
+::ng-deep .mat-mdc-radio-button {
+  width: 100%;
+}
+
+::ng-deep .mat-mdc-radio-button .mdc-form-field {
+  width: 100%;
+}
+
+::ng-deep .mat-mdc-radio-button .mdc-radio {
+  padding: 0;
+}

@@ -1,0 +1,222 @@
+<div class="flex justify-center forgot">
+  <mat-card appearance="outlined">
+    <mat-card-header class="justify-center flex-col">
+      <div class="progress">
+        @if (!isBusy()) {
+          <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+        }
+      </div>
+
+      <div class="flex justify-center flex-col mt-4">
+        @if (!isVerifyEmailSend()) {
+          <div class="flex justify-center">
+            <img class="h-[80px]" src="/img/logo-transparent.png" alt="Logo"/>
+          </div>
+        }
+
+        <div class="flex mt-1 flex-col">
+          @if (!isOtpVerifyForm() && !isVerifyEmailSend()) {
+            <h2 class="self-center my-2 font-semibold text-xl">Account recovery</h2>
+            <p class="self-center mb-3 text-sm">Select your preferred recovery option</p>
+
+            <mat-button-toggle-group class="self-center mb-3"
+              [hideSingleSelectionIndicator]="true"
+              [(ngModel)]="recoveryMode">
+              <mat-button-toggle value="phone" class="ps-3">Recover with phone</mat-button-toggle>
+              <mat-button-toggle value="email" class="pe-3">Recover with email</mat-button-toggle>
+            </mat-button-toggle-group>
+          }
+
+          @if (isOtpVerifyForm()) {
+            <h2 class="self-center my-2 font-semibold text-xl">Verify Account</h2>
+            <mat-chip class="self-center mt-1">
+              <mat-icon matChipAvatar>face</mat-icon>
+              <div class="flex items-center">
+                <span class="mx-2">+91 {{formPhoneRecovery.controls['phoneNumber'].value}}</span>
+                <mat-icon>arrow_drop_down</mat-icon>
+              </div>
+            </mat-chip>
+          }
+        </div>
+      </div>
+    </mat-card-header>
+
+    <mat-card-content>
+      @if(!isOtpVerifyForm() && !isVerifyEmailSend()) {
+        @if(recoveryMode() == 'phone'){
+          <div class="recover-with-phone">
+            <form [formGroup]="formPhoneRecovery" class="flex">
+              <button mat-stroked-button class="country-code me-1 !px-[10px]" type="button">
+                <div class="flex items-center">
+                  <div class="flex-col flag" style="background-position: -1px -2245px;"></div>
+                  <mat-icon class="flex-col">arrow_drop_down</mat-icon>
+                </div>
+              </button>
+
+              <mat-form-field appearance="outline"
+                class="flex-grow"
+                hideRequiredMarker="true">
+                <mat-label>Phone number</mat-label>
+                <input matInput
+                  [tabIndex]="1"
+                  formControlName="phoneNumber">
+                <span matPrefix class="ms-3 me-2">+91</span>
+                <mat-error class="field-error" *ngIf="formPhoneRecovery.controls['phoneNumber'].errors">
+                  Phone number is required
+                </mat-error>
+              </mat-form-field>
+              <!-- phone number -->
+            </form>
+            <p class="mt-2 text-center text-base">We will send an <span class="font-semibold">OTP</span> (One time password) on this number.</p>
+          </div>
+        } @else if (recoveryMode() == 'email') {
+          <div class="recover-with-phone">
+            <form [formGroup]="formEmailRecovery" class="flex flex-col">
+              <mat-form-field appearance="outline"
+                hideRequiredMarker="true">
+                <mat-label>Email</mat-label>
+                <input matInput
+                  [tabIndex]="1"
+                  autocomplete="email"
+                  formControlName="email" />
+
+                  @if (formEmailRecovery.controls['email'].errors) {
+                    <mat-error class="field-error">
+                      Email is required
+                    </mat-error>
+                  }
+              </mat-form-field>
+              <!-- email id -->
+            </form>
+            <p class="mt-2 text-center text-base">We will send a verification link to this email for you to reset your password.</p>
+          </div>
+        }
+      }
+
+      @if (isOtpVerifyForm()) {
+        <div class="flex flex-col verify-opt">
+          <p class="text-center text-base">
+            A text message with a <span>6-digit</span> verification code was just sent to:
+            <span class="text-base mat-sys-on-tertiary-fixed"> +91 {{formPhoneRecovery.controls['phoneNumber'].value}}</span>
+          </p>
+
+          <div class="self-center my-4">
+            <ng-otp-input [config]="otpInputConfig"
+              (onInputChange)="onOtpChange($event)">
+            </ng-otp-input>
+          </div>
+
+          <div class="self-center text-center">
+            Didn't receive OTP? <span>Please wait <span class="font-semibold">30</span> secs</span>
+            <button mat-button
+              style="--mat-sys-primary: var(--mat-sys-tertiary);"
+              class="ms-2">
+              RE-SEND
+            </button>
+          </div>
+        </div>
+      }
+
+      @if (isVerifyEmailSend()) {
+        <div class="flex justify-center flex-col verify-email">
+          <div class="icon self-center text-center">
+            <img src="/img/email-send.png" />
+          </div>
+          <h2 class="text-center font-semibold text-xl">Password Reset</h2>
+          <p class="text-center px-3 text-base mt-2">
+            A password reset link has been sent to your <br>
+            email: <span style="color: var(--mat-sys-on-tertiary-fixed);">{{formEmailRecovery.controls['email'].value}}</span></p>
+          <p class="text-center px-3 text-sm mt-2">
+            Please check your email and click the link provided to reset your password.
+          </p>
+        </div>
+      }
+    </mat-card-content>
+
+    <mat-card-footer>
+      @if (recoveryMode() == 'phone' && !isOtpVerifyForm() && !isVerifyEmailSend()) {
+        <div class="flex justify-between">
+          <a mat-button
+            [tabIndex]="-1"
+            [style.marginLeft]="'-8px'"
+            [routerLink]="[signinPhoneUrl]"
+            [queryParams]="nextQueryParams()"
+            [disabled]="false">
+            SignIn
+          </a>
+
+          <button type="submit"
+            mat-flat-button
+            class="px-4"
+            (click)="isOtpVerifyForm.set(true)"
+            [tabIndex]="3">
+            Next
+          </button>
+        </div>
+      }
+
+      @if (recoveryMode() == 'email' && !isOtpVerifyForm() && !isVerifyEmailSend()) {
+        <div class="flex justify-between">
+          <a mat-button
+            [tabIndex]="-1"
+            [style.marginLeft]="'-8px'"
+            [routerLink]="[signinPassowrdUrl]"
+            [queryParams]="nextQueryParams()"
+            [disabled]="false">
+            SignIn
+          </a>
+
+          <button type="submit"
+            mat-flat-button
+            class="px-4"
+            (click)="isVerifyEmailSend.set(true)"
+            [tabIndex]="3">
+            Next
+          </button>
+        </div>
+      }
+
+      @if (isOtpVerifyForm()) {
+        <div class="flex justify-between">
+          <a mat-button
+            [tabIndex]="-1"
+            [style.marginLeft]="'-8px'"
+            [routerLink]="[signinPhoneUrl]"
+            [queryParams]="nextQueryParams()"
+            [disabled]="false">
+            SignIn
+          </a>
+
+          <button type="submit"
+            mat-flat-button
+            class="px-4"
+            [tabIndex]="3">
+            Verify
+          </button>
+        </div>
+      }
+
+      @if (isVerifyEmailSend()) {
+        <div class="flex justify-between mt-6">
+          <a mat-button
+            [tabIndex]="-1"
+            [style.marginLeft]="'-8px'"
+            [routerLink]="[signinPassowrdUrl]"
+            [queryParams]="nextQueryParams()"
+            [disabled]="false">
+            <mat-icon class="me-2">open_in_new</mat-icon>
+            Goto Sigin
+          </a>
+
+          <button type="submit"
+            mat-flat-button
+            class="px-4"
+            [tabIndex]="3">
+            Resend Email
+          </button>
+        </div>
+      }
+    </mat-card-footer>
+  </mat-card>
+</div>
+

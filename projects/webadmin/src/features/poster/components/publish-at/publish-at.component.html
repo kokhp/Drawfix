@@ -1,0 +1,78 @@
+<div class="flex flex-col mb-4">
+  <div class="flex flex-col mb-4">
+    <div class="flex content-between items-center">
+      <p class="font-medium flex-grow" [innerHTML]="labelText()"></p>
+      <button mat-button>{{ nowButtonText() }}</button>
+    </div>
+    <p
+      class="help text-sm mt-1"
+      style="color: var(--mat-sys-on-surface-variant)"
+      [innerHTML]="helpText()"
+    ></p>
+  </div>
+
+  <div class="flex">
+    <div
+      matRipple
+      class="flex items-center ps-3 pe-1 border rounded w-40 cursor-pointer relative"
+      style="border-color: var(--mat-sys-outline)"
+      (click)="datePicker.open()"
+    >
+      <div class="flex flex-grow items-center">
+        <span>{{ dateValue() }}</span>
+        <input
+          matInput
+          disabled
+          class="h-0 absolute top-0 left-0 right-0"
+          [value]="dateTimeValue()"
+          [matDatepicker]="datePicker"
+          (dateChange)="onDateChanges($event)"
+        />
+        <mat-datepicker
+          xPosition="start"
+          yPosition="below"
+          #datePicker
+          disabled="false"
+        ></mat-datepicker>
+      </div>
+      <div class="flex items-center">
+        <mat-datepicker-toggle matIconSuffix [for]="datePicker">
+          <mat-icon matDatepickerToggleIcon>
+            <svg
+              viewBox="0 0 24 24"
+              preserveAspectRatio="xMidYMid meet"
+              focusable="false"
+            >
+              <g>
+                <path
+                  d="M12,15.7L5.6,9.4l0.7-0.7l5.6,5.6l5.6-5.6l0.7,0.7L12,15.7z"
+                ></path>
+              </g>
+            </svg>
+          </mat-icon>
+        </mat-datepicker-toggle>
+      </div>
+    </div>
+
+    <mat-form-field
+      class="ms-3 w-32"
+      appearance="outline"
+      subscriptSizing="dynamic"
+    >
+      <input
+        matInput
+        [value]="dateTimeValue() | date : 'hh:mm a'"
+        [matAutocomplete]="timePicker"
+      />
+      <mat-autocomplete
+        hideSingleSelectionIndicator="true"
+        class="apks-livestream-schedule-time-options"
+        #timePicker
+      >
+        @for (it of timeOptions(); track $index) {
+        <mat-option class="time-option" [value]="it">{{ it }}</mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+  </div>
+</div>

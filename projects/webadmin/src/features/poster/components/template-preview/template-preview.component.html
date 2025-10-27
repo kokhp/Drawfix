@@ -1,0 +1,44 @@
+<div class="flex flex-col rounded border shadow-md">
+  <div class="flex justify-center mt-2 mb-3">
+    <mat-button-toggle-group
+      class="self-center"
+      [hideSingleSelectionIndicator]="true"
+      [value]="'greeting'"
+    >
+      <mat-button-toggle value="greeting" class="ps-3"
+        >Greeting</mat-button-toggle
+      >
+      <mat-button-toggle value="political" class="pe-3"
+        >Political</mat-button-toggle
+      >
+    </mat-button-toggle-group>
+  </div>
+  <!-- toggal switch -->
+
+  <div
+    class="flex w-full max-h-64 overflow-hidden items-center justify-center relative"
+  >
+    <img
+      class="object-contain"
+      src="https://images.unsplash.com/photo-1604311795833-25e1d5c128c6?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8OSUzQTE2fGVufDB8fDB8fHww"
+    />
+  </div>
+
+  <div class="flex items-center justify-between py-1 border-t bg-gray-100">
+    <button mat-icon-button>
+      <mat-icon class="!block">
+        <svg viewBox="0 -960 960 960">
+          <path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z" />
+        </svg>
+      </mat-icon>
+    </button>
+    <p>Template name goes here</p>
+    <button mat-icon-button>
+      <mat-icon class="!block">
+        <svg viewBox="0 -960 960 960">
+          <path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z" />
+        </svg>
+      </mat-icon>
+    </button>
+  </div>
+</div>

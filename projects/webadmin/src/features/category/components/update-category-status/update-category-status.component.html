@@ -1,0 +1,30 @@
+<mat-card appearance="outlined" class="mat-mdc-card mdc-card mb-4 mat-mdc-card-outlined mdc-card--outlined">
+  <mat-card-header class="mat-mdc-card-header border-b">
+    <h3 class="status-title">Change Status</h3>
+  </mat-card-header>
+  <mat-radio-group [(ngModel)]="selectedStatus" class="status-options">
+    <mat-radio-button value="Active" class="status-option">
+      <div class="option-content">
+        <mat-icon class="option-icon">check_circle</mat-icon>
+        <div class="option-text">
+          <span class="option-label">Active</span>
+        </div>
+      </div>
+    </mat-radio-button>
+
+    <mat-radio-button value="Inactive" class="status-option">
+      <div class="option-content">
+        <mat-icon class="option-icon">cancel</mat-icon>
+        <div class="option-text">
+          <span class="option-label">Inactive</span>
+        </div>
+      </div>
+    </mat-radio-button>
+  </mat-radio-group>
+  <mat-card-footer class="mat-mdc-card-footer border-t">
+    <div class="status-footer">
+      <button mat-stroked-button (click)="onCancel()" class="cancel-btn">Cancel</button>
+      <button mat-stroked-button (click)="onSave()" class="save-btn">Save</button>
+    </div>
+  </mat-card-footer>
+</mat-card>

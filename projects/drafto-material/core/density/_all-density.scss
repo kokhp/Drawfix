@@ -1,0 +1,14 @@
+@use '@angular/material' as mat;
+
+// Includes all of the density styles.
+@mixin all-component-densities($theme) {
+  @if not mat.theme-has($theme, density) {
+    @error 'No density configuration specified.';
+  }
+
+}
+
+// @deprecated Use `all-component-densities`.
+@mixin drafto-material-density($theme) {
+  @include all-component-densities($theme);
+}

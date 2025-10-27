@@ -1,0 +1,32 @@
+@use '@angular/material' as mat;
+
+// We want to emit only the overrides, because the backwards compatibility styles are usually
+// emitted after all the tokens have been included once already. This allows us to save ~50kb
+// from the bundle.
+$_overrides-only: true;
+
+@mixin color-variant-styles($theme, $color-variant) {
+  $primary-options: (color-variant: $color-variant, emit-overrides-only: $_overrides-only);
+
+  // Some components use the secondary color rather than primary color for `.mat-primary`.
+  // Those components should use the $secondary-color-variant.
+  $secondary-options: (
+    color-variant: if($color-variant == primary, secondary, $color-variant),
+    emit-overrides-only: $_overrides-only
+  );
+
+}
+
+@mixin color-variants-backwards-compatibility($theme) {
+  .mat-primary {
+    @include color-variant-styles($theme, primary);
+  }
+
+  .mat-accent {
+    @include color-variant-styles($theme, tertiary);
+  }
+
+  .mat-warn {
+    @include color-variant-styles($theme, error);
+  }
+}

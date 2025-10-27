@@ -1,0 +1,25 @@
+@use 'sass:meta';
+@use 'sass:map';
+
+$_module-names: (
+  // Custom tokens
+);
+
+/// Gets the full set of M3 tokens for the given theme object.
+/// @param {Map} $systems The MDC system tokens
+/// @param {Boolean} $exclude-hardcoded Whether to exclude hardcoded token values
+/// @param {Map} $token-slots Possible token slots
+/// @return {Map} Full set of M3 tokens
+@function get-m3-tokens($systems, $exclude-hardcoded, $token-slots) {
+  $tokens: ();
+
+  @each $module-name in $_module-names {
+    $fn: meta.get-function(
+      $name: 'get-tokens',
+      $module: $module-name,
+    );
+    $tokens: map.merge($tokens, meta.call($fn, $systems, $exclude-hardcoded, $token-slots));
+  }
+
+  @return $tokens;
+}

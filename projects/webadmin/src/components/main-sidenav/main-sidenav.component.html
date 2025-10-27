@@ -1,0 +1,98 @@
+<div class="flex flex-col overflow-hidden _container">
+  <div class="_header" [ngClass]="headerClass()">
+
+    @switch (layoutStore.sidenavActiveMenuType()) {
+      @case (MenuType.MAIN) {
+        <div class="__main block !text-center">
+          <img  src="/img/logo.png"
+            class="inline object-cover rounded-full"
+            [width]="profilePicSize()"
+            [height]="profilePicSize()" />
+
+          <div class="text"
+            [class.pt-2]="!layoutStore.sidenavCollapsed()"
+            [class.collapsed]="layoutStore.sidenavCollapsed()">
+            <h2 class="text-base font-medium">Manohar Kumar</h2>
+            <p class="text-sm">Admin</p>
+          </div>
+        </div>
+      } <!-- main layout -->
+    }
+  </div>
+  <!-- header -->
+
+  <div class="_items px-2 flex-1 overflow-auto">
+    <mat-nav-list>
+      @for (item of layoutStore.sidenavMenuItems(); track $index) {
+        @if (item.route != "") {
+          <a mat-list-item
+            matTooltipPosition="after"
+            [routerLink]="item.route"
+            [activated]="activeMenuItemId() === item.id"
+            [matTooltip]="item.label"
+            [matTooltipDisabled]="!layoutStore.sidenavCollapsed()">
+            <mat-icon matListItemIcon
+              [fontSet]="activeMenuItemId() === item.id ? 'material-icons' : 'material-icons-outlined'">
+              {{item.icon}}
+            </mat-icon>
+            @if (!layoutStore.sidenavCollapsed()) {
+              <span matListItemTitle>{{item.label}}</span>
+            }
+          </a>
+        } @else if (item.onClick) {
+          <a mat-list-item
+            matTooltipPosition="after"
+            [matTooltip]="item.label"
+            [matTooltipDisabled]="!layoutStore.sidenavCollapsed()"
+            (click)="item.onClick()">
+            <mat-icon matListItemIcon fontSet="material-icons-outlined'">
+              {{item.icon}}
+            </mat-icon>
+            @if (!layoutStore.sidenavCollapsed()) {
+              <span matListItemTitle>{{item.label}}</span>
+            }
+          </a>
+        }
+      }
+    </mat-nav-list>
+  </div>
+
+  @if (layoutStore.sidenavFixedMenuItems().length > 0) {
+    <div class="_items px-2 border-t">
+      <mat-nav-list>
+        @for (item of layoutStore.sidenavFixedMenuItems(); track $index) {
+          @if (item.route) {
+            <a mat-list-item
+              matTooltipPosition="after"
+              [routerLink]="item.route"
+              [matTooltip]="item.label"
+              [matTooltipDisabled]="!layoutStore.sidenavCollapsed()"
+              [activated]="activeMenuItemId() === item.id">
+              <mat-icon matListItemIcon
+                [fontSet]="activeMenuItemId() === item.id ? 'material-icons' : 'material-icons-outlined'">
+                {{item.icon}}
+              </mat-icon>
+              @if (!layoutStore.sidenavCollapsed()) {
+                <span matListItemTitle>{{item.label}}</span>
+              }
+            </a>
+          } @else if (item.onClick) {
+            <a mat-list-item
+              matTooltipPosition="after"
+              [matTooltip]="item.label"
+              [matTooltipDisabled]="!layoutStore.sidenavCollapsed()"
+              (click)="item.onClick()">
+              <mat-icon matListItemIcon
+                [fontSet]="activeMenuItemId() === item.id ? 'material-icons' : 'material-icons-outlined'">
+                {{item.icon}}
+              </mat-icon>
+              @if (!layoutStore.sidenavCollapsed()) {
+                <span matListItemTitle>{{item.label}}</span>
+              }
+            </a>
+          }
+        }
+      </mat-nav-list>
+    </div>
+  }
+</div>

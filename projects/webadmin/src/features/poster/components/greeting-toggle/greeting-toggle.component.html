@@ -1,0 +1,40 @@
+<div class="flex flex-col mb-3">
+  <div class="flex flex-col mb-4">
+    <div class="flex content-between items-center">
+      <p class="font-medium flex-grow">Greeting</p>
+      <p class="slide">
+        No
+        <mat-slide-toggle [(ngModel)]="checked" hideIcon>Yes</mat-slide-toggle>
+      </p>
+    </div>
+    <p
+      class="help text-sm mt-1"
+      style="color: var(--mat-sys-on-surface-variant)"
+    >
+      Enable this option to make the poster available in the Greeting tab. If
+      selected, you can also configure categories, templates, and other settings
+      specific to greeting posters to ensure proper customization and
+      visibility.
+    </p>
+  </div>
+</div>
+@if (checked) {
+<dftwa-greeting-category></dftwa-greeting-category>
+<dftwa-greeting-template></dftwa-greeting-template>
+<dftwa-template-catogory type="greeting"></dftwa-template-catogory>
+<button mat-stroked-button class="mb-3" (click)="showMore = !showMore">
+  @if (showMore) {Show Less} @else {Show More}
+</button>
+<div class="flex flex-col mb-3">
+  @if (showMore) {
+  <mat-form-field appearance="outline">
+    <mat-label>Title</mat-label>
+    <textarea matInput></textarea>
+  </mat-form-field>
+  <mat-form-field appearance="outline">
+    <mat-label>Description</mat-label>
+    <textarea matInput></textarea>
+  </mat-form-field>
+  }
+</div>
+}
