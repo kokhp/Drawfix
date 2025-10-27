@@ -59,44 +59,115 @@
         display: flex;
         align-items: center;
         gap: 15px;
-      }
 
-      .status-arrow {
-        opacity: 0;
-        transition: opacity 0.2s;
-        width: 32px;
-        height: 32px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        margin-right: -8px;
-
-        mat-icon {
-          font-size: 24px;
-          width: 24px;
-          height: 24px;
+        .status-icon {
+          font-size: 18px;
+          width: 18px;
+          height: 18px;
+          color: rgba(0, 0, 0, 0.54);
         }
       }
 
-      &:hover .status-arrow {
-        opacity: 1;
+      .status-cell {
+        position: relative;
+
+        .status-value {
+          display: inline-block;
+
+          .status-icon {
+            font-size: 18px;
+            width: 18px;
+            height: 18px;
+            color: rgba(0, 0, 0, 0.54);
+            vertical-align: middle;
+            margin-right: 4px;
+          }
+        }
+
+        .status-arrow {
+          opacity: 0;
+          transition: opacity 0.2s;
+          width: 24px;
+          height: 24px;
+          padding: 0;
+          position: absolute;
+          top: 50%;
+          transform: translateY(-50%);
+          margin-left: 2px;
+
+          mat-icon {
+            font-size: 18px;
+            width: 18px;
+            height: 18px;
+            color: rgba(0, 0, 0, 0.54);
+            line-height: 18px;
+          }
+        }
+
+        &:hover .status-arrow {
+          opacity: 1;
+        }
       }
     }
 
     .cell.video {
       gap: 12px;
-
+      position: relative;
+  
       .meta {
         display: flex;
         flex-direction: column;
         gap: 4px;
-
+        width: 100%;
+  
         .title {
           font-weight: 600;
           display: flex;
           align-items: center;
           gap: 8px;
+          position: relative;
+  
+          .hover-actions {
+            position: absolute;
+            right: 48px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: none;
+            gap: 12px;
+            padding: 4px;
+            
+            button {
+              width: 42px;
+              height: 42px;
+              line-height: 42px;
+              
+              mat-icon {
+                font-size: 24px;
+                width: 24px;
+                height: 24px;
+                color: rgba(0, 0, 0, 0.54);
+              }
+
+              &:hover mat-icon {
+                color: rgba(0, 0, 0, 0.87);
+              }
+            }
+          }
         }
+  
+        .desc {
+          color: var(--mat-sys-on-surface-variant);
+          font-size: 12px;
+          display: flex;
+          align-items: center;
+          gap: 6px;
+        }
+      }
+  
+      &:hover .title .hover-actions {
+        display: flex;
+      }
+    }
         .desc {
           color: var(--mat-sys-on-surface-variant);
           font-size: 12px;
@@ -160,8 +231,7 @@
     .row:last-child .cell {
       border-bottom: none;
     }
-  }
-
+  
   .footer {
     display: flex;
     align-items: center;
@@ -200,7 +270,7 @@
       height: 18px;
     }
   }
-}
+
 
 :host ::ng-deep .dft-mat-filter-compare {
   /* Ensure numeric inputs show full numbers without truncation */
@@ -308,10 +378,34 @@
   color: #0f0f0f;
 }
 
-:host ::ng-deep .mat-mdc-menu-panel {
-  min-width: 400px !important;
-  max-width: 450px !important;
+.mat-mdc-menu-panel.status-menu {
+  min-width: 480px !important;
+  max-width: 480px !important;
+}
+
+.status-menu-container {
+  padding: 16px;
+}
+
+.mat-mdc-menu-item {
+  height: 48px;
+  border-radius: 8px;
+  margin: 4px 0;
+  
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.04);
+  }
 }
 
 
 // mat-mdc-menu-panel mat-menu-after mat-menu-below status-menu mat-menu-panel-animations-disabled
+.cell.status-cell {
+  justify-content: flex-start !important; /* keep icon, text & arrow together */
+}
+
+.cell.status-cell .status-value {
+  flex: 0 0 auto !important;
+  align-items: center;
+  gap: 6px;
+  min-width: 90px;
+}

@@ -34,6 +34,23 @@
         <div class="meta">
           <div class="title">
             {{ v.title }}
+            <div class="hover-actions">
+              <button mat-icon-button matTooltip="Edit">
+                <mat-icon>edit</mat-icon>
+              </button>
+              <button mat-icon-button matTooltip="Analytics">
+                <mat-icon>analytics</mat-icon>
+              </button>
+              <button mat-icon-button matTooltip="Comment">
+                <mat-icon>comment</mat-icon>
+              </button>
+              <button mat-icon-button matTooltip="View on YouTube">
+                <mat-icon>smart_display</mat-icon>
+              </button>
+              <button mat-icon-button matTooltip="More">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+            </div>
           </div>
           <div class="desc">
             <mat-icon inline>visibility</mat-icon>
@@ -54,6 +71,7 @@
         <button mat-icon-button class="status-arrow" [matMenuTriggerFor]="statusMenu">
           <mat-icon>arrow_drop_down</mat-icon>
         </button>
+
         <mat-menu #statusMenu="matMenu" class="status-menu" panelClass="status-menu-panel">
           <ng-template matMenuContent>
             <div (click)="$event.stopPropagation()" class="status-menu-container">
